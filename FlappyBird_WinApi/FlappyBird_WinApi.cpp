@@ -15,12 +15,11 @@
 #define obstacleXGap 172
 #define initObstacleX 200
 
-
 const int ScreenX = (GetSystemMetrics(SM_CXSCREEN) - win_width) / 2; //defines positions such that window will be in the middle
 const int ScreenY = (GetSystemMetrics(SM_CYSCREEN) - win_height) / 2;
-double ballY = 170;
+double ballYPos = 170;
 double ballYSpeed = 1;
-double ballGravity = 1.02;
+const double ballGravity = 1.02;
 
 int score = 0;
 int x = 0;
@@ -37,8 +36,10 @@ HBITMAP hb;
 OPENFILENAME op;
 HMENU hPopupMenu;
 
+//arrays for obstacles
+
 int obstacleHeights[OBSTACLESCOUNT];
-int obstacleXPos[OBSTACLESCOUNT*2];
+int obstacleXPos[OBSTACLESCOUNT * 2];
 int obstacleYPos[OBSTACLESCOUNT * 2];
 
 // Forward declarations of functions included in this code module:
@@ -47,7 +48,6 @@ ATOM				MyRegisterClassball(HINSTANCE hInstance);
 ATOM				MyRegisterClassObstacle(HINSTANCE hInstance);
 BOOL				InitInstance(HINSTANCE, int);
 LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
-//LRESULT CALLBACK	ballProc(HWND, UINT, WPARAM, LPARAM);
 
 int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,
@@ -198,13 +198,12 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 		GetModuleHandle(NULL),
 		NULL
 	);
-	//make window round
+	//make ball round
 	SetWindowRgn(ballWindow, (HRGN)CreateRoundRectRgn(0, 0, ball_diameter, ball_diameter, ball_diameter, ball_diameter), TRUE);
 	SetMenu(ballWindow, NULL);
 	ShowWindow(ballWindow, nCmdShow);
 	UpdateWindow(ballWindow);
 
-	int j = 0;
 	srand(time(NULL));
 
 
@@ -236,6 +235,7 @@ BOOL InitInstance(HINSTANCE hInstance, int nCmdShow)
 	return TRUE;
 }
 
+//handling mouse msges
 void GetTextInfoForMouseMsg(WPARAM wParam, LPARAM lParam, TCHAR *msgName,
 	TCHAR *buf, int bufSize)
 {
@@ -254,8 +254,9 @@ void GetTextInfoForMouseMsg(WPARAM wParam, LPARAM lParam, TCHAR *msgName,
 }
 
 void newGame() {
-	ballY = 170;
+	ballYPos = 170;
 	ballYSpeed = 1;
+	score = 0;
 	for (int i = 0; i < OBSTACLESCOUNT; i++) {
 		obstacleHeights[i] = rand() % 280;
 	}
@@ -266,7 +267,6 @@ void newGame() {
 		obstacleXPos[i + 1] = initObstacleX + obstacleXGap * i / 2;
 		obstacleYPos[i] = 0;
 		obstacleYPos[i + 1] = obstacleHeights[i / 2] + obstacleYGap;
-		score = 0;
 	}
 }
 
@@ -275,8 +275,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 	const int bufSize = 256;
 	TCHAR buf[bufSize];
-
-
 	int wmId;
 
 	HBRUSH brush;
@@ -294,23 +292,23 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 
 		case IDM_COLOR:
 		{
-			CHOOSECOLOR cc;                 // common dialog box structure 
+			CHOOSECOLOR newColor;                 // common dialog box structure 
 			static COLORREF acrCustClr[16]; // array of custom colors 
 			HWND hwnd = mainWindow;                      // owner window
 			HBRUSH hbrush;                  // brush handle
 			static DWORD rgbCurrent;        // initial color selection
 											// Initialize CHOOSECOLOR 
-			ZeroMemory(&cc, sizeof(cc));
-			cc.lStructSize = sizeof(cc);
-			cc.hwndOwner = hwnd;
-			cc.lpCustColors = (LPDWORD)acrCustClr;
-			cc.rgbResult = rgbCurrent;
-			cc.Flags = CC_FULLOPEN | CC_RGBINIT;
+			ZeroMemory(&newColor, sizeof(newColor));
+			newColor.lStructSize = sizeof(newColor);
+			newColor.hwndOwner = hwnd;
+			newColor.lpCustColors = (LPDWORD)acrCustClr;
+			newColor.rgbResult = rgbCurrent;
+			newColor.Flags = CC_FULLOPEN | CC_RGBINIT;
 
-			if (ChooseColor(&cc) == TRUE)
+			if (ChooseColor(&newColor) == TRUE)
 			{
-				hbrush = CreateSolidBrush(cc.rgbResult);
-				rgbCurrent = cc.rgbResult;
+				hbrush = CreateSolidBrush(newColor.rgbResult);
+				rgbCurrent = newColor.rgbResult;
 				SetClassLongPtr(hwnd, -10, (LONG)hbrush);
 				InvalidateRect(hwnd, NULL, TRUE);
 				UpdateWindow(hwnd);
@@ -412,7 +410,8 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_LBUTTONDOWN:
 	{
 		GetTextInfoForMouseMsg(wParam, lParam, (TCHAR*)_T("LBUTTONDOWN"), buf, bufSize);
-		ballY -= 30;
+		//jump 30 pixels up, and set the speed to initial
+		ballYPos -= 30;
 		ballYSpeed = 1;
 
 	}
@@ -423,6 +422,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	break;
 	case WM_RBUTTONDOWN:
 	{
+		//point p points to current mouse coordinates
 		POINT p;
 		if (GetCursorPos(&p))
 		{
@@ -432,16 +432,15 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_TIMER:
 	{
-		//SetClassLongPtr(mainWindow, GCLP_HBRBACKGROUND, (LONG)newBrush);
 		RECT rc_ball, rc_upperObstacle, rc_lowerObstacle;
 		GetWindowRect(ballWindow, &rc_ball);
 		
 		ballYSpeed *= ballGravity;
-		ballY += ballYSpeed;
-		MoveWindow(ballWindow, 100, ballY, 20, 20, TRUE);
+		ballYPos += ballYSpeed;
+		MoveWindow(ballWindow, 100, ballYPos, 20, 20, TRUE);
 
 		// ball out of playing zone
-		if (ballY < 0 || ballY > 370)
+		if (ballYPos < 0 || ballYPos > 370)
 		{
 			newGame();
 		}
