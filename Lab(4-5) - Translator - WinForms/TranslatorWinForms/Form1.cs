@@ -14,6 +14,7 @@ namespace TranslatorWinForms
     public partial class Form1 : Form
     {
         private List<string[]> words = new List<string[]>();
+        Dictionary<string, string> Dict = new Dictionary<string, string>();
 
         public Form1()
         {
@@ -27,34 +28,35 @@ namespace TranslatorWinForms
             theDialog.Title = "Open Text File";
             theDialog.Filter = "TXT files|*.txt";
             theDialog.InitialDirectory = "..//..//";
+            listView1.Items.Clear();
             if (theDialog.ShowDialog() == DialogResult.OK)
             {
                 foreach (string line in File.ReadAllLines(theDialog.FileName.ToString()))
                 {
-
-                    foreach (char c in line)
-                    {
-                        if (Char.IsLetter(c))
-                        {
-                            words.Add(line.Split(' '));
-                            break;
-                        }
-                        else continue;
-                    }
+                    string [] word = line.Split(' ');
+                    if (word.Length != 2)
+                        continue;
+                    if (word[0].All(c=>Char.IsLetter(c)) && word[1].All(c => Char.IsLetter(c)))
+                        words.Add(word);
+                    
                 }
                 listView1.View = View.Details;
+
                 listView1.Columns.Add(words[0][0]);
                 listView1.Columns.Add(words[0][1]);
-                
 
                 for (int i = 1; i < words.Count; i++)
                 {
-                    listView1.Items.Add(
-                        new ListViewItem(new[]
-                        {
-                        words[i][0],
-                        words[i][1]
-                        }));
+                    if (!Dict.ContainsKey(words[i][0]))
+                    {
+                        Dict.Add(words[i][0], words[i][1]);
+                        listView1.Items.Add(
+                            new ListViewItem(new[]
+                            {
+                            words[i][0],
+                            words[i][1]
+                            }));
+                    }
                 }
 
                 listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
