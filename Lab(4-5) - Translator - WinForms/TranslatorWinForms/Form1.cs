@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ListViewSortAnyColumn;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -14,8 +15,8 @@ namespace TranslatorWinForms
     public partial class Form1 : Form
     {
         private List<string[]> words = new List<string[]>();
-        Dictionary<string, string> Dict = new Dictionary<string, string>();
-
+        Dictionary<string, string> Dict;
+        
         public Form1()
         {
 
@@ -30,8 +31,9 @@ namespace TranslatorWinForms
             string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
             theDialog.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
             listView1.Items.Clear();
+            StringComparer comparer = StringComparer.CurrentCultureIgnoreCase;
+            Dict = new Dictionary<string, string>(comparer);
 
-            //when multiple files are added, check for bugs
             if (theDialog.ShowDialog() == DialogResult.OK)
             {
                 foreach (string line in File.ReadAllLines(theDialog.FileName.ToString()))
@@ -105,23 +107,19 @@ namespace TranslatorWinForms
                 Lines.Add(richTextBox1.Text.Split(' '));
             }
 
-
-            //StringComparer comparer = StringComparer.CurrentCultureIgnoreCase;
-            //var newDictionary = new Dictionary<string, string>(Dict, comparer);
-
             foreach (string[] LineOfWords in Lines)
             {
                 foreach (string a in LineOfWords)
                 {
-                    if (Dict.ContainsKey(a.ToLower()))
+                    if (Dict.ContainsKey(a))
                     {
                         richTextBox2.SelectionColor = Color.FromArgb(0, 0, 0);
-                        richTextBox2.AppendText(Dict[a.ToLower()] + " ");
+                        richTextBox2.AppendText(Dict[a] + " ");
                     }
-                    else if (Dict.ContainsValue(a.ToLower()))
+                    else if (Dict.ContainsValue(a))
                     {
                         richTextBox2.SelectionColor = Color.FromArgb(0, 0, 0);
-                        richTextBox2.AppendText(Dict.FirstOrDefault(x => x.Value == a.ToLower()).Key + " ");
+                        richTextBox2.AppendText(Dict.FirstOrDefault(x => x.Value == a).Key + " ");
                     }
                     else if (a == "420")
                         richTextBox2.AppendText("kod Spalińskiego\n");
@@ -134,6 +132,52 @@ namespace TranslatorWinForms
             }
 
         }
+
+        private void listView1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Delete)
+            {
+                var toDelete = listView1.SelectedItems;
+                foreach (ListViewItem item in toDelete)
+                {
+                    string toDelKey = item.SubItems[0].Text;
+                    //remove word pair from dictionary
+                    Dict.Remove(toDelKey);
+                    //remove it from the list
+                    item.Remove();
+                }
+
+            }
+        }
+
+        // ColumnClick event handler.
+        private void ColumnClick(object o, ColumnClickEventArgs e)
+        {
+            ItemComparer sorter = listView1.ListViewItemSorter as ItemComparer;
+            if (sorter == null)
+            {
+                sorter = new ItemComparer(e.Column);
+                sorter.Order = SortOrder.Ascending;
+                listView1.ListViewItemSorter = sorter;
+            }
+            // if clicked column is already the column that is being sorted
+            if (e.Column == sorter.Column)
+            {
+                // Reverse the current sort direction
+                if (sorter.Order == SortOrder.Ascending)
+                    sorter.Order = SortOrder.Descending;
+                else
+                    sorter.Order = SortOrder.Ascending;
+            }
+            else
+            {
+                // Set the column number that is to be sorted; default to ascending.
+                sorter.Column = e.Column;
+                sorter.Order = SortOrder.Ascending;
+            }
+            listView1.Sort();
+        }
+
     }
 }
 
