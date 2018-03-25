@@ -180,6 +180,7 @@ namespace TranslatorWinForms
         private void button2_Click(object sender, EventArgs e)
         {
             _AddWord = new AddWord(this);
+            //AddWord.label1.Name = 
             _AddWord.ShowDialog();
         }
     }
