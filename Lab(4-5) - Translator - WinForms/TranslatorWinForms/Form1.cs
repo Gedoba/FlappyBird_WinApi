@@ -16,7 +16,6 @@ namespace TranslatorWinForms
     {
         static public List<string[]> words = new List<string[]>();
         static public Dictionary<string, string> Dict;
-        AddWord _AddWord;
         public Form1()
         {
 
@@ -31,6 +30,7 @@ namespace TranslatorWinForms
             string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
             theDialog.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
             listView1.Items.Clear();
+            words.Clear();
             StringComparer comparer = StringComparer.CurrentCultureIgnoreCase;
             Dict = new Dictionary<string, string>(comparer);
 
@@ -88,8 +88,13 @@ namespace TranslatorWinForms
 
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void Translate_click(object sender, EventArgs e)
         {
+            if (words.Count == 0)
+            {
+                MessageBox.Show("No dictionary added", "Error");
+                return;
+            }
             richTextBox2.Clear();
             List<string[]> Lines = new List<string[]>();
             if (richTextBox1.Text.Contains('\n'))
@@ -177,11 +182,42 @@ namespace TranslatorWinForms
             listView1.Sort();
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void AddWord_Click(object sender, EventArgs e)
         {
-            _AddWord = new AddWord(this);
-            //AddWord.label1.Name = 
-            _AddWord.ShowDialog();
+            DialogResult dr = new DialogResult();
+            AddWord _AddWord = new AddWord(this);
+            if(words.Count == 0)
+            { 
+                _AddWord.label1.Text = "English";
+                _AddWord.label2.Text = "Polish";
+                //words.add(); //languages to [0]
+            }
+            else
+            {
+                _AddWord.label1.Text = listView1.Columns[0].Text;
+                _AddWord.label2.Text = listView1.Columns[1].Text;
+            }
+            dr = _AddWord.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                for (int i = 0; i < words.Count; i++)
+                {
+                    if (!Dict.ContainsKey(words[i][0]))
+                    {
+                        Dict.Add(words[i][0], words[i][1]);
+                        listView1.Items.Add(
+                            new ListViewItem(new[]
+                            {
+                                Form1.words[i][0],
+                                Form1.words[i][1]
+                            }));
+                    }
+                }
+            }
+            else
+            {
+                //MessageBox.Show("nothing added");
+            }
         }
     }
 }

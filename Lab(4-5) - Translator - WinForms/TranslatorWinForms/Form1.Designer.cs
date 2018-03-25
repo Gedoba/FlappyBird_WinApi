@@ -122,7 +122,7 @@ namespace TranslatorWinForms
             this.button2.TabIndex = 1;
             this.button2.Text = "Add word";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.AddWord_Click);
             // 
             // listView1
             // 
@@ -146,12 +146,12 @@ namespace TranslatorWinForms
             // 
             // columnHeader1
             // 
-            this.columnHeader1.Text = "English";
+            this.listView1.Columns[0].Text = this.columnHeader1.Text = "English";
             this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
-            this.columnHeader2.Text = "Polish";
+            this.listView1.Columns[1].Text = this.columnHeader2.Text = "Polish";
             this.columnHeader2.Width = 100;
             // 
             // tableLayoutPanel1
@@ -207,7 +207,7 @@ namespace TranslatorWinForms
             this.button1.TabIndex = 2;
             this.button1.Text = "Translate";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Translate_click);
             // 
             // Form1
             // 

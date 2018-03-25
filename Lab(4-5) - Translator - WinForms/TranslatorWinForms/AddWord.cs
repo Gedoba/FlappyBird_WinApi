@@ -44,20 +44,7 @@ namespace TranslatorWinForms
             if (langs[0].All(c => Char.IsLetter(c)) && langs[1].All(c => Char.IsLetter(c)))
                 Form1.words.Add(langs);
 
-            
-            //for (int i = 0; i < Form1.words.Count; i++)
-            //{
-            //    if (!Form1.Dict.ContainsKey(Form1.words[i][0]))
-            //    {
-            //        Form1.Dict.Add(Form1.words[i][0], Form1.words[i][1]);
-            //        Form1.listView1.Items.Add(
-            //            new ListViewItem(new[]
-            //            {
-            //                Form1.words[i][0],
-            //                Form1.words[i][1]
-            //            }));
-            //    }
-            //}
+
             this.Close();
         }
 
