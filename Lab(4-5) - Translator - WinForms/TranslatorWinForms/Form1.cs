@@ -27,8 +27,11 @@ namespace TranslatorWinForms
             OpenFileDialog theDialog = new OpenFileDialog();
             theDialog.Title = "Open Text File";
             theDialog.Filter = "TXT files|*.txt";
-            theDialog.InitialDirectory = "..//..//";
+            string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
+            theDialog.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
             listView1.Items.Clear();
+
+            //when multiple files are added, check for bugs
             if (theDialog.ShowDialog() == DialogResult.OK)
             {
                 foreach (string line in File.ReadAllLines(theDialog.FileName.ToString()))
@@ -40,10 +43,9 @@ namespace TranslatorWinForms
                         words.Add(word);
 
                 }
-                listView1.View = View.Details;
+                listView1.Columns[0].Text = words[0][0];
+                listView1.Columns[1].Text = words[0][1];
 
-                listView1.Columns.Add(words[0][0]);
-                listView1.Columns.Add(words[0][1]);
 
                 for (int i = 1; i < words.Count; i++)
                 {
@@ -69,7 +71,8 @@ namespace TranslatorWinForms
             SaveFileDialog theDialog = new SaveFileDialog();
             theDialog.Title = "Open Text File";
             theDialog.Filter = "TXT files|*.txt";
-            theDialog.InitialDirectory = "..//..//";
+            string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
+            theDialog.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
             if (theDialog.ShowDialog() == DialogResult.OK)
 
                 for (int i = 0; i < words.Count; i++)
@@ -102,20 +105,26 @@ namespace TranslatorWinForms
                 Lines.Add(richTextBox1.Text.Split(' '));
             }
 
+
+            //StringComparer comparer = StringComparer.CurrentCultureIgnoreCase;
+            //var newDictionary = new Dictionary<string, string>(Dict, comparer);
+
             foreach (string[] LineOfWords in Lines)
             {
                 foreach (string a in LineOfWords)
                 {
-                    if (Dict.ContainsKey(a))
+                    if (Dict.ContainsKey(a.ToLower()))
                     {
                         richTextBox2.SelectionColor = Color.FromArgb(0, 0, 0);
-                        richTextBox2.AppendText(Dict[a] + " ");
+                        richTextBox2.AppendText(Dict[a.ToLower()] + " ");
                     }
-                    else if (Dict.ContainsValue(a))
+                    else if (Dict.ContainsValue(a.ToLower()))
                     {
                         richTextBox2.SelectionColor = Color.FromArgb(0, 0, 0);
-                        richTextBox2.AppendText(Dict.FirstOrDefault(x => x.Value == a).Key + " ");
+                        richTextBox2.AppendText(Dict.FirstOrDefault(x => x.Value == a.ToLower()).Key + " ");
                     }
+                    else if (a == "420")
+                        richTextBox2.AppendText("kod Spalińskiego\n");
                     else
                     {
                         richTextBox2.SelectionColor = Color.FromArgb(255, 0, 0);
