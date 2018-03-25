@@ -190,7 +190,6 @@ namespace TranslatorWinForms
             { 
                 _AddWord.label1.Text = "English";
                 _AddWord.label2.Text = "Polish";
-                //words.add(); //languages to [0]
             }
             else
             {
@@ -200,7 +199,7 @@ namespace TranslatorWinForms
             dr = _AddWord.ShowDialog();
             if (dr == DialogResult.OK)
             {
-                for (int i = 0; i < words.Count; i++)
+                for (int i = 1; i < words.Count; i++)
                 {
                     if (!Dict.ContainsKey(words[i][0]))
                     {
