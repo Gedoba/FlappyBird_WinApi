@@ -18,6 +18,7 @@ namespace TranslatorWinForms
         static public Dictionary<string, string> Dict;
         List<string> fonts = new List<string>();
         bool isBold = false, isUnderlined = false, isItalic = false;
+        int fontStyle = 0; //0 - regular, 1 - bold, 2- italic, 3 - underlined, 1+2=3 - bold/italic, etc. 6 - all
         FontStyle style = new FontStyle();
 
 
@@ -29,13 +30,13 @@ namespace TranslatorWinForms
             foreach (FontFamily oneFontFamily in FontFamily.Families)
             {
 
-                toolStripComboBox1.Items.Add(oneFontFamily.Name);
+                fontComboBox.Items.Add(oneFontFamily.Name);
             }
 
-            toolStripComboBox1.Text = this.richTextBox1.Font.Name.ToString();
+            fontComboBox.Text = this.upperRichTextBox.Font.Name.ToString();
             
 
-            richTextBox1.Focus();
+            upperRichTextBox.Focus();
         }
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -111,11 +112,11 @@ namespace TranslatorWinForms
                 MessageBox.Show("No dictionary added", "Error");
                 return;
             }
-            richTextBox2.Clear();
+            lowerRichTextBox.Clear();
             List<string[]> Lines = new List<string[]>();
-            if (richTextBox1.Text.Contains('\n'))
+            if (upperRichTextBox.Text.Contains('\n'))
             {
-                string[] SplitLines = richTextBox1.Text.Split('\n');
+                string[] SplitLines = upperRichTextBox.Text.Split('\n');
                 foreach (string a in SplitLines)
                 {
                     string[] LineOfWords = a.Split(' ');
@@ -125,7 +126,7 @@ namespace TranslatorWinForms
             }
             else
             {
-                Lines.Add(richTextBox1.Text.Split(' '));
+                Lines.Add(upperRichTextBox.Text.Split(' '));
             }
 
             foreach (string[] LineOfWords in Lines)
@@ -134,20 +135,20 @@ namespace TranslatorWinForms
                 {
                     if (Dict.ContainsKey(a))
                     {
-                        richTextBox2.SelectionColor = Color.FromArgb(0, 0, 0);
-                        richTextBox2.AppendText(Dict[a] + " ");
+                        lowerRichTextBox.SelectionColor = Color.FromArgb(0, 0, 0);
+                        lowerRichTextBox.AppendText(Dict[a] + " ");
                     }
                     else if (Dict.ContainsValue(a))
                     {
-                        richTextBox2.SelectionColor = Color.FromArgb(0, 0, 0);
-                        richTextBox2.AppendText(Dict.FirstOrDefault(x => x.Value == a).Key + " ");
+                        lowerRichTextBox.SelectionColor = Color.FromArgb(0, 0, 0);
+                        lowerRichTextBox.AppendText(Dict.FirstOrDefault(x => x.Value == a).Key + " ");
                     }
                     else if (a == "420")
-                        richTextBox2.AppendText("kod Spalińskiego\n");
+                        lowerRichTextBox.AppendText("kod Spalińskiego\n");
                     else
                     {
-                        richTextBox2.SelectionColor = Color.FromArgb(255, 0, 0);
-                        richTextBox2.AppendText(a + " ");
+                        lowerRichTextBox.SelectionColor = Color.FromArgb(255, 0, 0);
+                        lowerRichTextBox.AppendText(a + " ");
                     }
                 }
             }
@@ -237,15 +238,15 @@ namespace TranslatorWinForms
 
         private void toolStripComboBox1_Selected(object sender, EventArgs e)
         {
-            richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
-            richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
+            upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Regular);
+            lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Regular);
         }
 
         private void toolStrip_ForeColor(object sender, EventArgs e)
         {
-            colorDialog1.Color = richTextBox1.ForeColor;
+            colorDialog1.Color = upperRichTextBox.ForeColor;
             if (colorDialog1.ShowDialog() == DialogResult.OK)
-                richTextBox1.ForeColor = colorDialog1.Color;
+                upperRichTextBox.ForeColor = colorDialog1.Color;
         }
 
         private void toolStripItalic_Click(object sender, EventArgs e)
@@ -253,16 +254,17 @@ namespace TranslatorWinForms
             if (!isItalic)
             {
                 isItalic = true;
-                //combine styles
-                richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Italic);
-                richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Italic);
+                fontStyle += 2;
+                italicButton.Checked = true;
             }
             else
             {
                 isItalic = false;
-                richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
-                richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
+                fontStyle -= 2;
+                italicButton.Checked = false;
+
             }
+            changeFontStyle();
         }
 
         private void toolStripUnderline_Click(object sender, EventArgs e)
@@ -270,21 +272,24 @@ namespace TranslatorWinForms
             if (!isUnderlined)
             {
                 isUnderlined = true;
-                richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Underline);
-                richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Underline);
+                fontStyle += 4;
+                underlinedButton.Checked = true;
+
             }
             else
             {
                 isUnderlined = false;
-                richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
-                richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
+                fontStyle -= 4;
+                underlinedButton.Checked = false;
+
             }
+            changeFontStyle();
         }
 
         private void toolStrip_UnderlineColor(object sender, EventArgs e)
         {
             //underline color
-            colorDialog1.Color = richTextBox1.ForeColor;
+            colorDialog1.Color = upperRichTextBox.ForeColor;
             if (colorDialog1.ShowDialog() == DialogResult.OK) ;
                 // = colorDialog1.Color;
         }
@@ -294,15 +299,58 @@ namespace TranslatorWinForms
             if (!isBold)
             {
                 isBold = true;
-                richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Bold);
-                richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Bold);
+                fontStyle += 1;
+                boldButton.Checked = true;
             }
             else
             {
                 isBold = false;
-                richTextBox1.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
-                richTextBox2.Font = new Font(toolStripComboBox1.SelectedItem.ToString(), 12, FontStyle.Regular);
+                fontStyle -= 1;
+                boldButton.Checked = false;
+
             }
+            changeFontStyle();
+        }
+        private void changeFontStyle()
+        {
+            switch (fontStyle)
+            {
+                case 0:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Regular);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Regular);
+                    break;
+                case 1:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Bold);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Bold);
+                    break;
+                case 2:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Italic);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Italic);
+                    break;
+                case 3:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Italic | FontStyle.Bold);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Italic | FontStyle.Bold);
+                    break;
+                case 4:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Underline);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Underline);
+                    break;
+                case 5:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Bold | FontStyle.Underline);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Bold | FontStyle.Underline);
+                    break;
+                case 6:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Underline | FontStyle.Italic);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Underline | FontStyle.Italic);
+                    break;
+                case 7:
+                    upperRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Underline | FontStyle.Italic | FontStyle.Bold);
+                    lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Underline | FontStyle.Italic | FontStyle.Bold);
+                    break;
+                default:
+                    break;
+            }
+
         }
     }
 }
