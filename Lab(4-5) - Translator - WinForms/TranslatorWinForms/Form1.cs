@@ -16,10 +16,24 @@ namespace TranslatorWinForms
     {
         static public List<string[]> words = new List<string[]>();
         static public Dictionary<string, string> Dict;
-        public Form1()
+        List<string> fonts = new List<string>();
+
+
+
+    public Form1()
         {
 
             InitializeComponent();
+            foreach (FontFamily oneFontFamily in FontFamily.Families)
+            {
+
+                toolStripComboBox1.Items.Add(oneFontFamily.Name);
+            }
+
+            toolStripComboBox1.Text = this.richTextBox1.Font.Name.ToString();
+            
+
+            richTextBox1.Focus();
         }
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -218,6 +232,16 @@ namespace TranslatorWinForms
                 //MessageBox.Show("nothing added");
             }
         }
+
+        private void toolStripComboBox1_Selected(object sender, EventArgs e)
+        {
+            //richTextBox1.SelectionFont = new Font((System.Drawing.Font)toolStripComboBox1.SelectedItem, 12);
+            //richTextBox2.SelectionFont = new Font(richTextBox2.Font.FontFamily, 12);
+
+            //richTextBox1.Font = (System.Drawing.Font)toolStripComboBox1.SelectedItem;
+            //richTextBox2.Font = (System.Drawing.Font)toolStripComboBox1.SelectedItem;
+        }
+
     }
 }
 
