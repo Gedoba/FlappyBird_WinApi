@@ -34,9 +34,60 @@ namespace TranslatorWinForms
             }
 
             fontComboBox.Text = this.upperRichTextBox.Font.Name.ToString();
-            
+            this.AllowDrop = true;
+            this.DragEnter += new DragEventHandler(Form1_DragEnter);
+            this.DragDrop += new DragEventHandler(Form1_DragDrop);
 
             upperRichTextBox.Focus();
+        }
+        void Form1_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Copy;
+        }
+
+        void Form1_DragDrop(object sender, DragEventArgs e)
+        { 
+
+            string []files = (string [])e.Data.GetData(DataFormats.FileDrop);
+            if(files == null)
+            {
+                MessageBox.Show("File is empty");
+            }
+            listView1.Items.Clear();
+            words.Clear();
+            StringComparer comparer = StringComparer.CurrentCultureIgnoreCase;
+            Dict = new Dictionary<string, string>(comparer);
+
+
+            foreach (string line in File.ReadAllLines(files[0]))
+            {
+                string[] word = line.Split(' ');
+                if (word.Length != 2)
+                    continue;
+                if (word[0].All(c => Char.IsLetter(c)) && word[1].All(c => Char.IsLetter(c)))
+                    words.Add(word);
+
+            }
+            listView1.Columns[0].Text = words[0][0];
+            listView1.Columns[1].Text = words[0][1];
+
+
+            for (int i = 1; i < words.Count; i++)
+            {
+                if (!Dict.ContainsKey(words[i][0]))
+                {
+                    Dict.Add(words[i][0], words[i][1]);
+                    listView1.Items.Add(
+                        new ListViewItem(new[]
+                        {
+                            words[i][0],
+                            words[i][1]
+                        }));
+                }
+            }
+
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.ColumnContent);
+            listView1.AutoResizeColumns(ColumnHeaderAutoResizeStyle.HeaderSize);
         }
         private void loadToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -242,11 +293,15 @@ namespace TranslatorWinForms
             lowerRichTextBox.Font = new Font(fontComboBox.SelectedItem.ToString(), 12, FontStyle.Regular);
         }
 
-        private void toolStrip_ForeColor(object sender, EventArgs e)
+        private void toolStrip_BackgroundColor(object sender, EventArgs e)
         {
-            colorDialog1.Color = upperRichTextBox.ForeColor;
+            colorDialog1.Color = upperRichTextBox.BackColor;
             if (colorDialog1.ShowDialog() == DialogResult.OK)
-                upperRichTextBox.ForeColor = colorDialog1.Color;
+            {
+                upperRichTextBox.BackColor = colorDialog1.Color;
+                lowerRichTextBox.BackColor = colorDialog1.Color;
+
+            }
         }
 
         private void toolStripItalic_Click(object sender, EventArgs e)
@@ -286,12 +341,22 @@ namespace TranslatorWinForms
             changeFontStyle();
         }
 
-        private void toolStrip_UnderlineColor(object sender, EventArgs e)
+        private void toolStripFontColor_Click(object sender, EventArgs e)
         {
-            //underline color
             colorDialog1.Color = upperRichTextBox.ForeColor;
-            if (colorDialog1.ShowDialog() == DialogResult.OK) ;
-                // = colorDialog1.Color;
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                upperRichTextBox.ForeColor = colorDialog1.Color;
+                lowerRichTextBox.ForeColor = colorDialog1.Color;
+
+            }
+        }
+
+        private void listView1_SizeChanged(object sender, EventArgs e)
+        {
+            this.listView1.Columns[0].Width = this.listView1.Width / 2;
+            this.listView1.Columns[1].Width = this.listView1.Width / 2;
+
         }
 
         private void toolStripBold_Click(object sender, EventArgs e)

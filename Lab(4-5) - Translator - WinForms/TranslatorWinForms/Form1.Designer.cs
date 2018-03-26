@@ -142,11 +142,13 @@ namespace TranslatorWinForms
             // 
             // listView1
             // 
+            this.listView1.AllowDrop = true;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
             this.listView1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.listView1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
             this.listView1.FullRowSelect = true;
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(4, 25);
@@ -158,6 +160,9 @@ namespace TranslatorWinForms
             this.listView1.UseCompatibleStateImageBehavior = false;
             this.listView1.View = System.Windows.Forms.View.Details;
             this.listView1.ColumnClick += new System.Windows.Forms.ColumnClickEventHandler(this.ColumnClick);
+            this.listView1.SizeChanged += new System.EventHandler(this.listView1_SizeChanged);
+            this.listView1.DragDrop += new System.Windows.Forms.DragEventHandler(this.Form1_DragDrop);
+            this.listView1.DragEnter += new System.Windows.Forms.DragEventHandler(this.Form1_DragEnter);
             this.listView1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.listView1_KeyDown);
             // 
             // columnHeader1
@@ -233,13 +238,14 @@ namespace TranslatorWinForms
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(575, 0);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(578, 0);
             this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStripContainer1.LeftToolStripPanelVisible = false;
-            this.toolStripContainer1.Location = new System.Drawing.Point(7, 25);
+            this.toolStripContainer1.Location = new System.Drawing.Point(4, 25);
+            this.toolStripContainer1.Margin = new System.Windows.Forms.Padding(0, 3, 3, 3);
             this.toolStripContainer1.Name = "toolStripContainer1";
             this.toolStripContainer1.RightToolStripPanelVisible = false;
-            this.toolStripContainer1.Size = new System.Drawing.Size(575, 25);
+            this.toolStripContainer1.Size = new System.Drawing.Size(578, 25);
             this.toolStripContainer1.TabIndex = 3;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -249,7 +255,7 @@ namespace TranslatorWinForms
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.boldButton,
             this.italicButton,
@@ -259,7 +265,7 @@ namespace TranslatorWinForms
             this.fontComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(281, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(250, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // boldButton
@@ -300,7 +306,7 @@ namespace TranslatorWinForms
             this.toolStripButton4.Name = "toolStripButton4";
             this.toolStripButton4.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton4.Text = "toolStripButton4";
-            this.toolStripButton4.Click += new System.EventHandler(this.toolStrip_UnderlineColor);
+            this.toolStripButton4.Click += new System.EventHandler(this.toolStripFontColor_Click);
             // 
             // toolStripButton5
             // 
@@ -310,7 +316,7 @@ namespace TranslatorWinForms
             this.toolStripButton5.Name = "toolStripButton5";
             this.toolStripButton5.Size = new System.Drawing.Size(23, 22);
             this.toolStripButton5.Text = "toolStripButton5";
-            this.toolStripButton5.Click += new System.EventHandler(this.toolStrip_ForeColor);
+            this.toolStripButton5.Click += new System.EventHandler(this.toolStrip_BackgroundColor);
             // 
             // fontComboBox
             // 
@@ -320,7 +326,6 @@ namespace TranslatorWinForms
             // 
             // Form1
             // 
-            this.AllowDrop = true;
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(805, 481);
