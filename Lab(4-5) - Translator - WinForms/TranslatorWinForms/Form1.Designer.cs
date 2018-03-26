@@ -146,12 +146,12 @@ namespace TranslatorWinForms
             // 
             // columnHeader1
             // 
-            this.listView1.Columns[0].Text = this.columnHeader1.Text = "English";
+            this.columnHeader1.Text = "English";
             this.columnHeader1.Width = 100;
             // 
             // columnHeader2
             // 
-            this.listView1.Columns[1].Text = this.columnHeader2.Text = "Polish";
+            this.columnHeader2.Text = "Polish";
             this.columnHeader2.Width = 100;
             // 
             // tableLayoutPanel1
@@ -171,7 +171,7 @@ namespace TranslatorWinForms
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(575, 452);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(574, 452);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
             // richTextBox1
@@ -180,7 +180,7 @@ namespace TranslatorWinForms
             this.richTextBox1.Location = new System.Drawing.Point(0, 0);
             this.richTextBox1.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox1.Name = "richTextBox1";
-            this.richTextBox1.Size = new System.Drawing.Size(575, 207);
+            this.richTextBox1.Size = new System.Drawing.Size(574, 207);
             this.richTextBox1.TabIndex = 0;
             this.richTextBox1.Text = "";
             // 
@@ -190,7 +190,7 @@ namespace TranslatorWinForms
             this.richTextBox2.Location = new System.Drawing.Point(0, 245);
             this.richTextBox2.Margin = new System.Windows.Forms.Padding(0);
             this.richTextBox2.Name = "richTextBox2";
-            this.richTextBox2.Size = new System.Drawing.Size(575, 207);
+            this.richTextBox2.Size = new System.Drawing.Size(574, 207);
             this.richTextBox2.TabIndex = 1;
             this.richTextBox2.Text = "";
             // 
