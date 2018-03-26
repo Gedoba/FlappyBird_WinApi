@@ -131,6 +131,7 @@ namespace TranslatorWinForms
             // 
             // button2
             // 
+            this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
             this.button2.Location = new System.Drawing.Point(42, 438);
             this.button2.Name = "button2";
             this.button2.Size = new System.Drawing.Size(126, 31);
@@ -141,7 +142,6 @@ namespace TranslatorWinForms
             // 
             // listView1
             // 
-            //this.listView1.AllowDrop = true;
             this.listView1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
@@ -151,7 +151,7 @@ namespace TranslatorWinForms
             this.listView1.GridLines = true;
             this.listView1.Location = new System.Drawing.Point(4, 25);
             this.listView1.Margin = new System.Windows.Forms.Padding(4);
-            this.listView1.MinimumSize = new System.Drawing.Size(190, 400);
+            this.listView1.MinimumSize = new System.Drawing.Size(190, 270);
             this.listView1.Name = "listView1";
             this.listView1.Size = new System.Drawing.Size(203, 406);
             this.listView1.TabIndex = 0;
@@ -172,40 +172,43 @@ namespace TranslatorWinForms
             // 
             // tableLayoutPanel1
             // 
+            this.tableLayoutPanel1.AutoSize = true;
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.upperRichTextBox, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.lowerRichTextBox, 0, 3);
             this.tableLayoutPanel1.Controls.Add(this.button1, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.toolStripContainer1, 0, 0);
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 25);
+            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
+            this.tableLayoutPanel1.Padding = new System.Windows.Forms.Padding(4, 22, 4, 4);
             this.tableLayoutPanel1.RowCount = 4;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 27F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 38F));
+            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 35F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(588, 456);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(589, 481);
             this.tableLayoutPanel1.TabIndex = 3;
             // 
-            // richTextBox1
+            // upperRichTextBox
             // 
             this.upperRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.upperRichTextBox.Location = new System.Drawing.Point(0, 27);
+            this.upperRichTextBox.Location = new System.Drawing.Point(4, 53);
             this.upperRichTextBox.Margin = new System.Windows.Forms.Padding(0);
-            this.upperRichTextBox.Name = "richTextBox1";
-            this.upperRichTextBox.Size = new System.Drawing.Size(588, 195);
+            this.upperRichTextBox.Name = "upperRichTextBox";
+            this.upperRichTextBox.Size = new System.Drawing.Size(581, 194);
             this.upperRichTextBox.TabIndex = 0;
             this.upperRichTextBox.Text = "";
             // 
-            // richTextBox2
+            // lowerRichTextBox
             // 
             this.lowerRichTextBox.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.lowerRichTextBox.Location = new System.Drawing.Point(0, 260);
+            this.lowerRichTextBox.Location = new System.Drawing.Point(4, 282);
             this.lowerRichTextBox.Margin = new System.Windows.Forms.Padding(0);
-            this.lowerRichTextBox.Name = "richTextBox2";
-            this.lowerRichTextBox.Size = new System.Drawing.Size(588, 195);
+            this.lowerRichTextBox.Name = "lowerRichTextBox";
+            this.lowerRichTextBox.Size = new System.Drawing.Size(581, 195);
             this.lowerRichTextBox.TabIndex = 1;
             this.lowerRichTextBox.Text = "";
             // 
@@ -213,7 +216,7 @@ namespace TranslatorWinForms
             // 
             this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)));
             this.button1.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.button1.Location = new System.Drawing.Point(244, 226);
+            this.button1.Location = new System.Drawing.Point(244, 251);
             this.button1.Margin = new System.Windows.Forms.Padding(4);
             this.button1.MaximumSize = new System.Drawing.Size(100, 25);
             this.button1.MinimumSize = new System.Drawing.Size(100, 25);
@@ -226,13 +229,17 @@ namespace TranslatorWinForms
             // 
             // toolStripContainer1
             // 
+            this.toolStripContainer1.BottomToolStripPanelVisible = false;
             // 
             // toolStripContainer1.ContentPanel
             // 
-            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(341, 0);
-            this.toolStripContainer1.Location = new System.Drawing.Point(3, 3);
+            this.toolStripContainer1.ContentPanel.Size = new System.Drawing.Size(575, 0);
+            this.toolStripContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.toolStripContainer1.LeftToolStripPanelVisible = false;
+            this.toolStripContainer1.Location = new System.Drawing.Point(7, 25);
             this.toolStripContainer1.Name = "toolStripContainer1";
-            this.toolStripContainer1.Size = new System.Drawing.Size(341, 21);
+            this.toolStripContainer1.RightToolStripPanelVisible = false;
+            this.toolStripContainer1.Size = new System.Drawing.Size(575, 25);
             this.toolStripContainer1.TabIndex = 3;
             this.toolStripContainer1.Text = "toolStripContainer1";
             // 
@@ -242,7 +249,7 @@ namespace TranslatorWinForms
             // 
             // toolStrip1
             // 
-            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.boldButton,
             this.italicButton,
@@ -252,35 +259,35 @@ namespace TranslatorWinForms
             this.fontComboBox});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(250, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(281, 25);
             this.toolStrip1.TabIndex = 0;
             // 
-            // toolStripButton1
+            // boldButton
             // 
             this.boldButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.boldButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.boldButton.Image = ((System.Drawing.Image)(resources.GetObject("boldButton.Image")));
             this.boldButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.boldButton.Name = "toolStripButton1";
+            this.boldButton.Name = "boldButton";
             this.boldButton.Size = new System.Drawing.Size(23, 22);
             this.boldButton.Text = "toolStripButton1";
             this.boldButton.Click += new System.EventHandler(this.toolStripBold_Click);
             // 
-            // toolStripButton2
+            // italicButton
             // 
             this.italicButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.italicButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.italicButton.Image = ((System.Drawing.Image)(resources.GetObject("italicButton.Image")));
             this.italicButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.italicButton.Name = "toolStripButton2";
+            this.italicButton.Name = "italicButton";
             this.italicButton.Size = new System.Drawing.Size(23, 22);
             this.italicButton.Text = "toolStripButton2";
             this.italicButton.Click += new System.EventHandler(this.toolStripItalic_Click);
             // 
-            // toolStripButton3
+            // underlinedButton
             // 
             this.underlinedButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.underlinedButton.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.underlinedButton.Image = ((System.Drawing.Image)(resources.GetObject("underlinedButton.Image")));
             this.underlinedButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.underlinedButton.Name = "toolStripButton3";
+            this.underlinedButton.Name = "underlinedButton";
             this.underlinedButton.Size = new System.Drawing.Size(23, 22);
             this.underlinedButton.Text = "toolStripButton3";
             this.underlinedButton.Click += new System.EventHandler(this.toolStripUnderline_Click);
@@ -305,9 +312,9 @@ namespace TranslatorWinForms
             this.toolStripButton5.Text = "toolStripButton5";
             this.toolStripButton5.Click += new System.EventHandler(this.toolStrip_ForeColor);
             // 
-            // toolStripComboBox1
+            // fontComboBox
             // 
-            this.fontComboBox.Name = "toolStripComboBox1";
+            this.fontComboBox.Name = "fontComboBox";
             this.fontComboBox.Size = new System.Drawing.Size(121, 25);
             this.fontComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox1_Selected);
             // 
@@ -330,6 +337,7 @@ namespace TranslatorWinForms
             this.menuStrip1.PerformLayout();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel2.ResumeLayout(false);
+            this.splitContainer1.Panel2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).EndInit();
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
