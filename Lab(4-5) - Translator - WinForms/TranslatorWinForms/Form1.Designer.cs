@@ -32,6 +32,7 @@ namespace TranslatorWinForms
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Form1));
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +57,8 @@ namespace TranslatorWinForms
             this.fontComboBox = new System.Windows.Forms.ToolStripComboBox();
             this.fontDialog1 = new System.Windows.Forms.FontDialog();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
+            this.addWordMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.addWordToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -65,6 +68,7 @@ namespace TranslatorWinForms
             this.toolStripContainer1.TopToolStripPanel.SuspendLayout();
             this.toolStripContainer1.SuspendLayout();
             this.toolStrip1.SuspendLayout();
+            this.addWordMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip1
@@ -86,7 +90,6 @@ namespace TranslatorWinForms
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 19);
             this.fileToolStripMenuItem.Text = "File";
-            this.fileToolStripMenuItem.Click += new System.EventHandler(this.fileToolStripMenuItem_Click);
             // 
             // loadToolStripMenuItem
             // 
@@ -132,9 +135,10 @@ namespace TranslatorWinForms
             // button2
             // 
             this.button2.Anchor = System.Windows.Forms.AnchorStyles.Bottom;
-            this.button2.Location = new System.Drawing.Point(42, 438);
+            this.button2.Font = new System.Drawing.Font("Calibri", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.button2.Location = new System.Drawing.Point(56, 438);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(126, 31);
+            this.button2.Size = new System.Drawing.Size(104, 31);
             this.button2.TabIndex = 1;
             this.button2.Text = "Add word";
             this.button2.UseVisualStyleBackColor = true;
@@ -216,6 +220,7 @@ namespace TranslatorWinForms
             this.lowerRichTextBox.Size = new System.Drawing.Size(581, 195);
             this.lowerRichTextBox.TabIndex = 1;
             this.lowerRichTextBox.Text = "";
+            this.lowerRichTextBox.MouseDown += new System.Windows.Forms.MouseEventHandler(this.lowerRichTextBox_MouseDown);
             // 
             // button1
             // 
@@ -324,6 +329,20 @@ namespace TranslatorWinForms
             this.fontComboBox.Size = new System.Drawing.Size(121, 25);
             this.fontComboBox.SelectedIndexChanged += new System.EventHandler(this.toolStripComboBox1_Selected);
             // 
+            // addWordMenuStrip
+            // 
+            this.addWordMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.addWordToolStripMenuItem});
+            this.addWordMenuStrip.Name = "addWordMenuStrip";
+            this.addWordMenuStrip.Size = new System.Drawing.Size(100, 26);
+            // 
+            // addWordToolStripMenuItem
+            // 
+            this.addWordToolStripMenuItem.Name = "addWordToolStripMenuItem";
+            this.addWordToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.addWordToolStripMenuItem.Text = "Add ";
+            this.addWordToolStripMenuItem.Click += new System.EventHandler(this.addWordToolStripMenuItem_Click);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 19F);
@@ -352,6 +371,7 @@ namespace TranslatorWinForms
             this.toolStripContainer1.PerformLayout();
             this.toolStrip1.ResumeLayout(false);
             this.toolStrip1.PerformLayout();
+            this.addWordMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -382,6 +402,8 @@ namespace TranslatorWinForms
         private FontDialog fontDialog1;
         private ToolStripComboBox fontComboBox;
         private ColorDialog colorDialog1;
+        private ContextMenuStrip addWordMenuStrip;
+        private ToolStripMenuItem addWordToolStripMenuItem;
     }
 }
 

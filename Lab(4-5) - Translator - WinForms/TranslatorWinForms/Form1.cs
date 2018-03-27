@@ -23,7 +23,7 @@ namespace TranslatorWinForms
 
 
 
-    public Form1()
+        public Form1()
         {
 
             InitializeComponent();
@@ -46,10 +46,10 @@ namespace TranslatorWinForms
         }
 
         void Form1_DragDrop(object sender, DragEventArgs e)
-        { 
+        {
 
-            string []files = (string [])e.Data.GetData(DataFormats.FileDrop);
-            if(files == null)
+            string[] files = (string[])e.Data.GetData(DataFormats.FileDrop);
+            if (files == null)
             {
                 MessageBox.Show("File is empty");
             }
@@ -143,26 +143,25 @@ namespace TranslatorWinForms
             theDialog.Filter = "TXT files|*.txt";
             string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
             theDialog.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
+            // copy of Dict, not a reference!
+            var tempDict = new Dictionary<string, string>(Dict);
             if (theDialog.ShowDialog() == DialogResult.OK)
-
+            {
+                File.WriteAllText(theDialog.FileName.ToString(), String.Empty);
                 for (int i = 0; i < words.Count; i++)
                 {
-                    File.AppendAllText(theDialog.FileName.ToString(), words[i][0] + " " + words[i][1] + Environment.NewLine);
+                    if (tempDict.ContainsKey(words[i][0]))
+                    {
+                        File.AppendAllText(theDialog.FileName.ToString(), words[i][0] + " " + words[i][1] + Environment.NewLine);
+                        tempDict.Remove(words[i][0]);
+                    }
                 }
-
-        }
-        private void fileToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
+            }
         }
 
         private void Translate_click(object sender, EventArgs e)
         {
-            if (words.Count == 0)
-            {
-                MessageBox.Show("No dictionary added", "Error");
-                return;
-            }
+
             lowerRichTextBox.Clear();
             List<string[]> Lines = new List<string[]>();
             if (upperRichTextBox.Text.Contains('\n'))
@@ -184,6 +183,12 @@ namespace TranslatorWinForms
             {
                 foreach (string a in LineOfWords)
                 {
+                    if (words.Count == 0)
+                    {
+                        lowerRichTextBox.SelectionColor = Color.FromArgb(255, 0, 0);
+                        lowerRichTextBox.AppendText(a + " ");
+                        return;
+                    }
                     if (Dict.ContainsKey(a))
                     {
                         lowerRichTextBox.SelectionColor = Color.FromArgb(0, 0, 0);
@@ -254,8 +259,8 @@ namespace TranslatorWinForms
         {
             DialogResult dr = new DialogResult();
             AddWord _AddWord = new AddWord(this);
-            if(words.Count == 0)
-            { 
+            if (words.Count == 0)
+            {
                 _AddWord.label1.Text = "English";
                 _AddWord.label2.Text = "Polish";
             }
@@ -357,6 +362,74 @@ namespace TranslatorWinForms
             this.listView1.Columns[0].Width = this.listView1.Width / 2;
             this.listView1.Columns[1].Width = this.listView1.Width / 2;
 
+        }
+
+        private void lowerRichTextBox_MouseDown(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                addWordToolStripMenuItem.Text = "Add " + lowerRichTextBox.Text;
+                addWordMenuStrip.Show(Cursor.Position);
+            }
+        }
+
+        private void addWordToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            DialogResult dr = new DialogResult();
+            AddWord _AddWord = new AddWord(this);
+
+            //lowerRichTextBox.Clear();
+            List<string[]> Lines = new List<string[]>();
+            if (lowerRichTextBox.Text.Contains('\n'))
+            {
+                string[] SplitLines = lowerRichTextBox.Text.Split('\n');
+                foreach (string a in SplitLines)
+                {
+                    string[] LineOfWords = a.Split(' ');
+                    LineOfWords[LineOfWords.Length - 1] += " \n";
+                    Lines.Add(LineOfWords);
+                }
+            }
+            else
+            {
+                Lines.Add(lowerRichTextBox.Text.Split(' '));
+            }
+            _AddWord.textBox1.Text = Lines[0][0];
+
+
+
+            _AddWord.textBox1.Enabled = false;
+            if (words.Count == 0)
+            {
+                _AddWord.label1.Text = "English";
+                _AddWord.label2.Text = "Polish";
+            }
+            else
+            {
+                _AddWord.label1.Text = listView1.Columns[0].Text;
+                _AddWord.label2.Text = listView1.Columns[1].Text;
+            }
+            dr = _AddWord.ShowDialog();
+            if (dr == DialogResult.OK)
+            {
+                for (int i = 1; i < words.Count; i++)
+                {
+                    if (!Dict.ContainsKey(words[i][0]))
+                    {
+                        Dict.Add(words[i][0], words[i][1]);
+                        listView1.Items.Add(
+                            new ListViewItem(new[]
+                            {
+                                Form1.words[i][0],
+                                Form1.words[i][1]
+                            }));
+                    }
+                }
+            }
+            else
+            {
+                //MessageBox.Show("nothing added");
+            }
         }
 
         private void toolStripBold_Click(object sender, EventArgs e)

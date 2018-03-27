@@ -109,15 +109,18 @@ namespace TranslatorWinForms
             // textBox2
             // 
             this.textBox2.Anchor = System.Windows.Forms.AnchorStyles.None;
-            this.textBox2.Location = new System.Drawing.Point(239, 74);
+            this.errorProvider2.SetIconPadding(this.textBox2, 2);
+            this.errorProvider1.SetIconPadding(this.textBox2, 2);
+            this.textBox2.Location = new System.Drawing.Point(240, 74);
             this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(97, 20);
+            this.textBox2.Size = new System.Drawing.Size(95, 20);
             this.textBox2.TabIndex = 2;
             this.textBox2.Validated += new System.EventHandler(this.textBox2_Validated);
             // 
             // textBox1
             // 
             this.textBox1.Anchor = System.Windows.Forms.AnchorStyles.None;
+            this.errorProvider2.SetIconPadding(this.textBox1, 2);
             this.errorProvider1.SetIconPadding(this.textBox1, 2);
             this.textBox1.Location = new System.Drawing.Point(240, 18);
             this.textBox1.Name = "textBox1";
@@ -172,8 +175,8 @@ namespace TranslatorWinForms
 
         #endregion
         public System.Windows.Forms.Label label1;
-        private System.Windows.Forms.TextBox textBox1;
-        private System.Windows.Forms.TextBox textBox2;
+        public System.Windows.Forms.TextBox textBox1;
+        public System.Windows.Forms.TextBox textBox2;
         public System.Windows.Forms.Label label2;
         public System.Windows.Forms.TableLayoutPanel tableLayoutPanel1;
         private System.Windows.Forms.Button button2;
