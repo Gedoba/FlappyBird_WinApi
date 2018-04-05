@@ -19,10 +19,11 @@ namespace WinFormsPaint
             foreach (KnownColor kc in values)
             {
                 Color RealColor = Color.FromKnownColor(kc);
-                Button n = new Button();
+                Panel n = new Panel();
                 n.BackColor = RealColor;
                 n.Size = new Size(25, 25);
-                n.Padding = new Padding(0, 0, 0, 0);
+                n.Padding = new Padding(1);
+                n.Margin = new Padding(2);
                 flowLayoutPanel1.Controls.Add(n);
                 n.Click += (object sender, EventArgs e) =>
                 {
@@ -97,9 +98,17 @@ namespace WinFormsPaint
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
             if (isBrush)
+            {
                 isBrush = false;
+                this.toolStripButton1.Checked = false;
+
+
+            }
             else
+            {
                 isBrush = true;
+                this.toolStripButton1.Checked = true;
+            }
         }
 
     }
