@@ -65,44 +65,24 @@
             // 
             // tableLayoutPanel1
             // 
-            this.tableLayoutPanel1.ColumnCount = 1;
-            this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            resources.ApplyResources(this.tableLayoutPanel1, "tableLayoutPanel1");
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel2, 0, 1);
             this.tableLayoutPanel1.Controls.Add(this.toolStrip1, 0, 0);
-            this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 2;
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(984, 461);
-            this.tableLayoutPanel1.TabIndex = 0;
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 2;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 90F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 10F));
+            resources.ApplyResources(this.tableLayoutPanel2, "tableLayoutPanel2");
             this.tableLayoutPanel2.Controls.Add(this.pictureBox1, 0, 0);
             this.tableLayoutPanel2.Controls.Add(this.groupBox1, 1, 0);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 25);
-            this.tableLayoutPanel2.Margin = new System.Windows.Forms.Padding(0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 1;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(984, 436);
-            this.tableLayoutPanel2.TabIndex = 0;
             // 
             // pictureBox1
             // 
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(879, 430);
-            this.pictureBox1.TabIndex = 0;
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown_1);
             this.pictureBox1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseMove_1);
@@ -110,27 +90,19 @@
             // 
             // groupBox1
             // 
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(888, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(93, 430);
-            this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Colors";
             // 
             // flowLayoutPanel1
             // 
-            this.flowLayoutPanel1.AutoScroll = true;
-            this.flowLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.flowLayoutPanel1.Location = new System.Drawing.Point(3, 16);
-            this.flowLayoutPanel1.Margin = new System.Windows.Forms.Padding(0);
+            resources.ApplyResources(this.flowLayoutPanel1, "flowLayoutPanel1");
             this.flowLayoutPanel1.Name = "flowLayoutPanel1";
-            this.flowLayoutPanel1.Size = new System.Drawing.Size(87, 411);
-            this.flowLayoutPanel1.TabIndex = 0;
             // 
             // toolStrip1
             // 
+            resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.File,
             this.saveButton,
@@ -151,170 +123,143 @@
             this.Language,
             this.englishButton,
             this.polishButton});
-            this.toolStrip1.Location = new System.Drawing.Point(0, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(984, 25);
-            this.toolStrip1.TabIndex = 1;
-            this.toolStrip1.Text = "toolStrip1";
             // 
             // File
             // 
+            resources.ApplyResources(this.File, "File");
             this.File.Name = "File";
-            this.File.Size = new System.Drawing.Size(25, 22);
-            this.File.Text = "File";
             // 
             // saveButton
             // 
+            resources.ApplyResources(this.saveButton, "saveButton");
             this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(23, 22);
-            this.saveButton.Text = "Save";
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // loadButton
             // 
+            resources.ApplyResources(this.loadButton, "loadButton");
             this.loadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.loadButton.Image = ((System.Drawing.Image)(resources.GetObject("loadButton.Image")));
-            this.loadButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.loadButton.Name = "loadButton";
-            this.loadButton.Size = new System.Drawing.Size(23, 22);
-            this.loadButton.Text = "Load";
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // toolStripSeparator1
             // 
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
             // 
             // Tools
             // 
+            resources.ApplyResources(this.Tools, "Tools");
             this.Tools.Name = "Tools";
-            this.Tools.Size = new System.Drawing.Size(35, 22);
-            this.Tools.Text = "Tools";
             // 
             // brushButton
             // 
+            resources.ApplyResources(this.brushButton, "brushButton");
             this.brushButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.brushButton.Image = ((System.Drawing.Image)(resources.GetObject("brushButton.Image")));
-            this.brushButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.brushButton.Name = "brushButton";
-            this.brushButton.Size = new System.Drawing.Size(23, 22);
-            this.brushButton.Text = "Brush";
             this.brushButton.Click += new System.EventHandler(this.brushButton_Click);
             // 
             // rectangleButton
             // 
+            resources.ApplyResources(this.rectangleButton, "rectangleButton");
             this.rectangleButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.rectangleButton.Image = ((System.Drawing.Image)(resources.GetObject("rectangleButton.Image")));
-            this.rectangleButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.rectangleButton.Name = "rectangleButton";
-            this.rectangleButton.Size = new System.Drawing.Size(23, 22);
-            this.rectangleButton.Text = "Rectangle";
+            this.rectangleButton.Click += new System.EventHandler(this.rectangleButton_Click);
             // 
             // ellipseButton
             // 
+            resources.ApplyResources(this.ellipseButton, "ellipseButton");
             this.ellipseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.ellipseButton.Image = ((System.Drawing.Image)(resources.GetObject("ellipseButton.Image")));
-            this.ellipseButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.ellipseButton.Name = "ellipseButton";
-            this.ellipseButton.Size = new System.Drawing.Size(23, 22);
-            this.ellipseButton.Text = "Ellipse";
+            this.ellipseButton.Click += new System.EventHandler(this.ellipseButton_Click);
             // 
             // clearButton
             // 
+            resources.ApplyResources(this.clearButton, "clearButton");
             this.clearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.clearButton.Image = ((System.Drawing.Image)(resources.GetObject("clearButton.Image")));
-            this.clearButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.clearButton.Name = "clearButton";
-            this.clearButton.Size = new System.Drawing.Size(23, 22);
-            this.clearButton.Text = "Clear";
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
             // toolStripSeparator2
             // 
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(6, 25);
             // 
             // Thickness
             // 
+            resources.ApplyResources(this.Thickness, "Thickness");
             this.Thickness.Name = "Thickness";
-            this.Thickness.Size = new System.Drawing.Size(59, 22);
-            this.Thickness.Text = "Thickness";
             // 
             // ThicknessComboBox
             // 
+            resources.ApplyResources(this.ThicknessComboBox, "ThicknessComboBox");
             this.ThicknessComboBox.Name = "ThicknessComboBox";
-            this.ThicknessComboBox.Size = new System.Drawing.Size(75, 25);
             this.ThicknessComboBox.SelectedIndexChanged += new System.EventHandler(this.ThicknessComboBox_SelectedIndexChanged);
             // 
             // toolStripSeparator3
             // 
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(6, 25);
             // 
             // ChosenColor
             // 
+            resources.ApplyResources(this.ChosenColor, "ChosenColor");
             this.ChosenColor.Name = "ChosenColor";
-            this.ChosenColor.Size = new System.Drawing.Size(77, 22);
-            this.ChosenColor.Text = "Chosen color";
             // 
             // currentColorButton
             // 
-            this.currentColorButton.AutoSize = false;
+            resources.ApplyResources(this.currentColorButton, "currentColorButton");
             this.currentColorButton.BackColor = System.Drawing.SystemColors.Control;
             this.currentColorButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.currentColorButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.currentColorButton.Name = "currentColorButton";
-            this.currentColorButton.Size = new System.Drawing.Size(17, 17);
-            this.currentColorButton.Text = "Chosen Color";
             // 
             // toolStripSeparator4
             // 
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(6, 25);
             // 
             // Language
             // 
+            resources.ApplyResources(this.Language, "Language");
             this.Language.Name = "Language";
-            this.Language.Size = new System.Drawing.Size(59, 22);
-            this.Language.Text = "Language";
             // 
             // englishButton
             // 
+            resources.ApplyResources(this.englishButton, "englishButton");
+            this.englishButton.Checked = true;
+            this.englishButton.CheckOnClick = true;
+            this.englishButton.CheckState = System.Windows.Forms.CheckState.Checked;
             this.englishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.englishButton.Image = ((System.Drawing.Image)(resources.GetObject("englishButton.Image")));
-            this.englishButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.englishButton.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             this.englishButton.Name = "englishButton";
-            this.englishButton.Size = new System.Drawing.Size(23, 17);
-            this.englishButton.Text = "English";
+            this.englishButton.Click += new System.EventHandler(this.language_Change);
             // 
             // polishButton
             // 
+            resources.ApplyResources(this.polishButton, "polishButton");
+            this.polishButton.CheckOnClick = true;
             this.polishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.polishButton.Image = ((System.Drawing.Image)(resources.GetObject("polishButton.Image")));
-            this.polishButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.polishButton.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             this.polishButton.Name = "polishButton";
-            this.polishButton.Size = new System.Drawing.Size(23, 17);
-            this.polishButton.Text = "Polish";
+            this.polishButton.Click += new System.EventHandler(this.language_Change);
+            // 
+            // saveFileDialog1
+            // 
+            resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
             // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
+            resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
             // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            resources.ApplyResources(this, "$this");
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(984, 461);
             this.Controls.Add(this.tableLayoutPanel1);
-            this.MinimumSize = new System.Drawing.Size(640, 480);
             this.Name = "Form1";
-            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "MiniPaint";
             this.SizeChanged += new System.EventHandler(this.Form1_SizeChanged);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

@@ -5,14 +5,15 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Text;
+
 using System.Windows.Forms;
 
 /// <summary>
 ///  TODO:
-///  RMB click -> disallow drawing.
 ///  hovering over currentColorButton
 /// </summary>
 namespace WinFormsPaint
@@ -21,13 +22,14 @@ namespace WinFormsPaint
     {
         private Point? _Previous = null;
         private Bitmap bmp;
-        private bool isBrush = false;
-        private Pen pen = new Pen(Color.Black, 2);
+        private Pen pen = new Pen(Color.Black, 2); // main Pen
         private Color CurrentColor = Color.Black;
         public Form1()
         {
-            InitializeComponent();
+            //default - English
+            CultureInfo.CurrentUICulture = CultureInfo.CreateSpecificCulture("en");
 
+            InitializeComponent();
             KnownColor[] values = (KnownColor[])Enum.GetValues(typeof(KnownColor));
             currentColorButton.BackColor = CurrentColor;
 
@@ -100,10 +102,13 @@ namespace WinFormsPaint
 
         private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
         {
-            if(isBrush)
+            if(this.brushButton.Checked)
             {
                 _Previous = e.Location;
-                pictureBox1_MouseMove_1(sender, e);
+            }
+            if(e.Button == MouseButtons.Right)
+            {
+                _Previous = null;
             }
             
         }
@@ -132,7 +137,10 @@ namespace WinFormsPaint
         }
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
-            _Previous = null;
+            if (e.Button == MouseButtons.Left)
+            {
+                _Previous = null;
+            }
         }
 
         private void Form1_SizeChanged(object sender, EventArgs e)
@@ -157,15 +165,17 @@ namespace WinFormsPaint
 
         private void brushButton_Click(object sender, EventArgs e)
         {
-            if (isBrush)
+            if (this.brushButton.Checked)
             {
-                isBrush = false;
                 this.brushButton.Checked = false;
+                this.rectangleButton.Checked = false;
+                this.ellipseButton.Checked = false;
             }
             else
             {
-                isBrush = true;
                 this.brushButton.Checked = true;
+                this.rectangleButton.Checked = false;
+                this.ellipseButton.Checked = false;
             }
         }
 
@@ -203,10 +213,10 @@ namespace WinFormsPaint
 
         private void loadButton_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.Title = "Load img file";
-            saveFileDialog1.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPeg Image|*.jpeg";
+            openFileDialog1.Title = "Load img file";
+            openFileDialog1.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPeg Image|*.jpeg";
             string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
-            saveFileDialog1.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
+            openFileDialog1.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 Bitmap loaded = new Bitmap(openFileDialog1.FileName);
@@ -228,11 +238,84 @@ namespace WinFormsPaint
 
         private void clearButton_Click(object sender, EventArgs e)
         {
-            Graphics graphics = Graphics.FromImage(bmp);
-            graphics.Clear(Color.White);
-            pictureBox1.Image = bmp;
-            pictureBox1.Refresh();
-            graphics.Dispose();
+            try
+            {
+                Graphics graphics = Graphics.FromImage(bmp);
+                graphics.Clear(Color.White);
+                pictureBox1.Image = bmp;
+                pictureBox1.Refresh();
+                graphics.Dispose();
+            }
+            catch (ArgumentNullException) { /* no need to clear */ }
+
+        }
+
+        private void rectangleButton_Click(object sender, EventArgs e)
+        {
+            if (this.rectangleButton.Checked)
+            {
+                this.brushButton.Checked = false;
+                this.rectangleButton.Checked = false;
+                this.ellipseButton.Checked = false;
+            }
+            else
+            {
+                this.brushButton.Checked = false;
+                this.rectangleButton.Checked = true;
+                this.ellipseButton.Checked = false;
+            }
+            //make rect
+        }
+
+        private void ellipseButton_Click(object sender, EventArgs e)
+        {
+            if (this.ellipseButton.Checked)
+            {
+                this.brushButton.Checked = false;
+                this.rectangleButton.Checked = false;
+                this.ellipseButton.Checked = false;
+            }
+            else
+            {
+                this.brushButton.Checked = false;
+                this.rectangleButton.Checked = false;
+                this.ellipseButton.Checked = true;
+            }
+            //make ellipse
+        }
+
+        private void language_Change(object sender, EventArgs e)
+        {
+            ToolStripButton button = (ToolStripButton)sender;
+            if (button == englishButton)
+            {
+                if (!polishButton.Checked)
+                {
+                    englishButton.Checked = true;
+                    return;
+                }
+                polishButton.Checked = false;
+                CultureInfo.CurrentUICulture = CultureInfo.CreateSpecificCulture("en");
+            }
+            else
+            {
+                if (!englishButton.Checked)
+                {
+                    polishButton.Checked = true;
+                    return;
+                }
+                englishButton.Checked = false;
+                CultureInfo.CurrentUICulture = CultureInfo.CreateSpecificCulture("pl");
+            }
+            ComponentResourceManager resources = new ComponentResourceManager(typeof(Form1));
+            //applying resources too all items in toolStrip
+            foreach (ToolStripItem l in toolStrip1.Items)
+            {
+                resources.ApplyResources(l, l.Name);
+            }
+            //applying resources for 'colors' groupBox
+            resources.ApplyResources(groupBox1, groupBox1.Name);
+            
         }
     }
 }
