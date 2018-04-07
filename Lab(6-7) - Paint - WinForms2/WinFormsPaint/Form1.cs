@@ -15,22 +15,34 @@ using System.Windows.Forms;
 /// <summary>
 ///  TODO:
 ///  hovering over currentColorButton
-///  ellipse + rect
+///  loading image, bitmap is partialy black
 /// </summary>
 namespace WinFormsPaint
 {
     public partial class Form1 : Form
     {
-        private Point? _Previous = null;
-        private Bitmap bmp;
+        private Point? _Previous = null, point = null;
+        private Bitmap bmp, tmp;
         private Pen pen = new Pen(Color.Black, 2); // main Pen
         private Color CurrentColor = Color.Black;
+        private bool isDrawable = false;
         public Form1()
         {
             //default - English
             CultureInfo.CurrentUICulture = CultureInfo.CreateSpecificCulture("en");
 
             InitializeComponent();
+
+            if (pictureBox1.Image == null)
+            {
+                bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+                using (Graphics g = Graphics.FromImage(bmp))
+                {
+                    g.Clear(Color.White);
+                }
+                pictureBox1.Image = bmp;
+            }
+
             KnownColor[] values = (KnownColor[])Enum.GetValues(typeof(KnownColor));
             currentColorButton.BackColor = CurrentColor;
 
@@ -103,45 +115,91 @@ namespace WinFormsPaint
 
         private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
         {
-            if(this.brushButton.Checked)
+
+            _Previous = e.Location;
+            if(e.Button == MouseButtons.Left)
             {
-                _Previous = e.Location;
+                isDrawable = true;
             }
-            if(e.Button == MouseButtons.Right)
+            else if(e.Button == MouseButtons.Right)
             {
-                _Previous = null;
+                isDrawable = false;
+                StopDrawing();
             }
             
         }
+
+        private void StopDrawing()
+        {
+            if (rectangleButton.Checked || ellipseButton.Checked) //Here we need to check whether to set temporary bitmap as result
+            {
+                if (isDrawable) //Means drawing wasn't cancelled by right-click
+                {
+                    bmp = tmp;
+                }
+                //Set proper bitmap
+                pictureBox1.Image = bmp;
+                pictureBox1.Refresh();
+            }
+        }
         private void pictureBox1_MouseMove_1(object sender, MouseEventArgs e)
         {
-            
-            if (_Previous != null)
+            if (brushButton.Checked)
             {
-                if (pictureBox1.Image == null)
+                if (_Previous != null && isDrawable)
                 {
-                    bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                    using (Graphics g = Graphics.FromImage(bmp))
+
+                    using (Graphics g = Graphics.FromImage(pictureBox1.Image))
                     {
-                        g.Clear(Color.White);
+                        //smoooooth
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        g.DrawLine(pen, _Previous.Value, e.Location);
                     }
-                    pictureBox1.Image = bmp;
+                    pictureBox1.Invalidate();
+                    _Previous = e.Location;
                 }
-                using (Graphics g = Graphics.FromImage(pictureBox1.Image))
-                {
-                    //smoooooth
-                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
-                    g.DrawLine(pen, _Previous.Value, e.Location);
-                }
-                pictureBox1.Invalidate();
-                _Previous = e.Location;
+                
             }
+            else if (rectangleButton.Checked || ellipseButton.Checked)
+            {
+                if(isDrawable && point != null)
+                {
+                    tmp = new Bitmap(bmp);
+                    //Generate proper coordinates for rectangle that will be used
+                    int x = point.Value.X < e.Location.X ? point.Value.X : e.Location.X;
+                    int y = point.Value.Y < e.Location.Y ? point.Value.Y : e.Location.Y;
+
+                    //Draw the shape on a temporary bitmap and show it
+                    Graphics g = Graphics.FromImage(tmp);
+                    Rectangle rect = new Rectangle(x, y, Math.Abs(e.Location.X - point.Value.X), Math.Abs(e.Location.Y - point.Value.Y));
+                    if (rectangleButton.Checked)
+                        g.DrawRectangle(pen, rect);
+                    else if (ellipseButton.Checked)
+                        g.DrawEllipse(pen, rect);
+                    pictureBox1.Image = tmp;
+                    pictureBox1.Refresh();
+                    g.Dispose();
+                }
+                else if (point==null) //If we can draw, but we don't know where to start - start where you are
+                {
+                    point = e.Location;
+                }
+                else //If we can't draw - empty the starting point (to ensure nothing will be drawn
+                {
+                    point = new Point?();
+                }
+            
+            }
+            
+           
         }
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                _Previous = null;
+                //_Previous = null;
+                StopDrawing();
+                isDrawable = false;
             }
         }
 
