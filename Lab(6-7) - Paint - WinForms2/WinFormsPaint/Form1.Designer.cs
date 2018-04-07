@@ -79,9 +79,9 @@
             // 
             // pictureBox1
             // 
-            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Cursor = System.Windows.Forms.Cursors.Cross;
+            resources.ApplyResources(this.pictureBox1, "pictureBox1");
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.TabStop = false;
             this.pictureBox1.MouseDown += new System.Windows.Forms.MouseEventHandler(this.pictureBox1_MouseDown_1);
@@ -90,8 +90,8 @@
             // 
             // groupBox1
             // 
-            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Controls.Add(this.flowLayoutPanel1);
+            resources.ApplyResources(this.groupBox1, "groupBox1");
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.TabStop = false;
             // 
@@ -102,7 +102,6 @@
             // 
             // toolStrip1
             // 
-            resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.File,
             this.saveButton,
@@ -123,90 +122,91 @@
             this.Language,
             this.englishButton,
             this.polishButton});
+            resources.ApplyResources(this.toolStrip1, "toolStrip1");
             this.toolStrip1.Name = "toolStrip1";
             // 
             // File
             // 
-            resources.ApplyResources(this.File, "File");
             this.File.Name = "File";
+            resources.ApplyResources(this.File, "File");
             // 
             // saveButton
             // 
-            resources.ApplyResources(this.saveButton, "saveButton");
             this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.saveButton, "saveButton");
             this.saveButton.Name = "saveButton";
             this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // loadButton
             // 
-            resources.ApplyResources(this.loadButton, "loadButton");
             this.loadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.loadButton, "loadButton");
             this.loadButton.Name = "loadButton";
             this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // toolStripSeparator1
             // 
-            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             this.toolStripSeparator1.Name = "toolStripSeparator1";
+            resources.ApplyResources(this.toolStripSeparator1, "toolStripSeparator1");
             // 
             // Tools
             // 
-            resources.ApplyResources(this.Tools, "Tools");
             this.Tools.Name = "Tools";
+            resources.ApplyResources(this.Tools, "Tools");
             // 
             // brushButton
             // 
-            resources.ApplyResources(this.brushButton, "brushButton");
             this.brushButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.brushButton, "brushButton");
             this.brushButton.Name = "brushButton";
             this.brushButton.Click += new System.EventHandler(this.brushButton_Click);
             // 
             // rectangleButton
             // 
-            resources.ApplyResources(this.rectangleButton, "rectangleButton");
             this.rectangleButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.rectangleButton, "rectangleButton");
             this.rectangleButton.Name = "rectangleButton";
             this.rectangleButton.Click += new System.EventHandler(this.rectangleButton_Click);
             // 
             // ellipseButton
             // 
-            resources.ApplyResources(this.ellipseButton, "ellipseButton");
             this.ellipseButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.ellipseButton, "ellipseButton");
             this.ellipseButton.Name = "ellipseButton";
             this.ellipseButton.Click += new System.EventHandler(this.ellipseButton_Click);
             // 
             // clearButton
             // 
-            resources.ApplyResources(this.clearButton, "clearButton");
             this.clearButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.clearButton, "clearButton");
             this.clearButton.Name = "clearButton";
             this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
             // toolStripSeparator2
             // 
-            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             this.toolStripSeparator2.Name = "toolStripSeparator2";
+            resources.ApplyResources(this.toolStripSeparator2, "toolStripSeparator2");
             // 
             // Thickness
             // 
-            resources.ApplyResources(this.Thickness, "Thickness");
             this.Thickness.Name = "Thickness";
+            resources.ApplyResources(this.Thickness, "Thickness");
             // 
             // ThicknessComboBox
             // 
-            resources.ApplyResources(this.ThicknessComboBox, "ThicknessComboBox");
             this.ThicknessComboBox.Name = "ThicknessComboBox";
+            resources.ApplyResources(this.ThicknessComboBox, "ThicknessComboBox");
             this.ThicknessComboBox.SelectedIndexChanged += new System.EventHandler(this.ThicknessComboBox_SelectedIndexChanged);
             // 
             // toolStripSeparator3
             // 
-            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             this.toolStripSeparator3.Name = "toolStripSeparator3";
+            resources.ApplyResources(this.toolStripSeparator3, "toolStripSeparator3");
             // 
             // ChosenColor
             // 
-            resources.ApplyResources(this.ChosenColor, "ChosenColor");
             this.ChosenColor.Name = "ChosenColor";
+            resources.ApplyResources(this.ChosenColor, "ChosenColor");
             // 
             // currentColorButton
             // 
@@ -217,42 +217,37 @@
             // 
             // toolStripSeparator4
             // 
-            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             this.toolStripSeparator4.Name = "toolStripSeparator4";
+            resources.ApplyResources(this.toolStripSeparator4, "toolStripSeparator4");
             // 
             // Language
             // 
-            resources.ApplyResources(this.Language, "Language");
             this.Language.Name = "Language";
+            resources.ApplyResources(this.Language, "Language");
             // 
             // englishButton
             // 
-            resources.ApplyResources(this.englishButton, "englishButton");
             this.englishButton.Checked = true;
             this.englishButton.CheckOnClick = true;
             this.englishButton.CheckState = System.Windows.Forms.CheckState.Checked;
             this.englishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.englishButton, "englishButton");
             this.englishButton.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             this.englishButton.Name = "englishButton";
             this.englishButton.Click += new System.EventHandler(this.language_Changed);
             // 
             // polishButton
             // 
-            resources.ApplyResources(this.polishButton, "polishButton");
             this.polishButton.CheckOnClick = true;
             this.polishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            resources.ApplyResources(this.polishButton, "polishButton");
             this.polishButton.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             this.polishButton.Name = "polishButton";
             this.polishButton.Click += new System.EventHandler(this.language_Changed);
             // 
-            // saveFileDialog1
-            // 
-            resources.ApplyResources(this.saveFileDialog1, "saveFileDialog1");
-            // 
             // openFileDialog1
             // 
             this.openFileDialog1.FileName = "openFileDialog1";
-            resources.ApplyResources(this.openFileDialog1, "openFileDialog1");
             // 
             // Form1
             // 

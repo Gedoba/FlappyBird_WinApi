@@ -12,11 +12,6 @@ using System.Text;
 
 using System.Windows.Forms;
 
-/// <summary>
-///  TODO:
-///  hovering over currentColorButton
-///  loading image, bitmap is partialy black
-/// </summary>
 namespace WinFormsPaint
 {
     public partial class Form1 : Form
@@ -48,7 +43,6 @@ namespace WinFormsPaint
 
             foreach (KnownColor kc in values)
             {
-
                 Color RealColor = Color.FromKnownColor(kc);
                 Panel colorPanel = new Panel();
                 colorPanel.BackColor = RealColor;
@@ -70,8 +64,8 @@ namespace WinFormsPaint
                     CurrentColor = colorPanel.BackColor;
                     pen.Color = CurrentColor;
                     //Border
-                    Color c = Color.FromArgb(colorPanel.BackColor.ToArgb() ^ 0xffffff);
-                    Pen p = new Pen(c, 3)
+                    Color col = Color.FromArgb(colorPanel.BackColor.ToArgb() ^ 0xffffff);
+                    Pen p = new Pen(col, 3)
                     {
                         DashStyle = DashStyle.Dot
                     };
@@ -79,7 +73,6 @@ namespace WinFormsPaint
                     g.DrawRectangle(p, colorPanel.ClientRectangle);
                     p.Dispose();
                     g.Dispose();
-                    //Set toolstrip button colour
                     currentColorButton.BackColor = CurrentColor;
 
                 };
@@ -87,8 +80,8 @@ namespace WinFormsPaint
                 {
                     if (colorPanel.BackColor == CurrentColor)
                     {
-                        Color c = Color.FromArgb(colorPanel.BackColor.ToArgb() ^ 0xffffff);
-                        Pen p = new Pen(c, 3)
+                        Color col = Color.FromArgb(colorPanel.BackColor.ToArgb() ^ 0xffffff);
+                        Pen p = new Pen(col, 3)
                         {
                             DashStyle = DashStyle.Dot
                         };
@@ -104,29 +97,27 @@ namespace WinFormsPaint
                 flowLayoutPanel1.Controls.Add(colorPanel);
             }
 
-
-            for (int i = 1; i<4; i++)
+            for (int i = 1; i < 4; i++)
             {
                 ThicknessComboBox.Items.Add(i);
             }
             ThicknessComboBox.SelectedItem = ThicknessComboBox.Items[1];
-
         }
 
         private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
         {
 
             _Previous = e.Location;
-            if(e.Button == MouseButtons.Left)
+            if (e.Button == MouseButtons.Left)
             {
                 isDrawable = true;
             }
-            else if(e.Button == MouseButtons.Right)
+            else if (e.Button == MouseButtons.Right)
             {
                 isDrawable = false;
                 StopDrawing();
             }
-            
+
         }
 
         private void StopDrawing()
@@ -148,7 +139,6 @@ namespace WinFormsPaint
             {
                 if (_Previous != null && isDrawable)
                 {
-
                     using (Graphics g = Graphics.FromImage(pictureBox1.Image))
                     {
                         //smoooooth
@@ -158,46 +148,42 @@ namespace WinFormsPaint
                     pictureBox1.Invalidate();
                     _Previous = e.Location;
                 }
-                
             }
             else if (rectangleButton.Checked || ellipseButton.Checked)
             {
-                if(isDrawable && point != null)
+                if (isDrawable && point != null)
                 {
                     tmp = new Bitmap(bmp);
-                    //Generate proper coordinates for rectangle that will be used
-                    int x = point.Value.X < e.Location.X ? point.Value.X : e.Location.X;
-                    int y = point.Value.Y < e.Location.Y ? point.Value.Y : e.Location.Y;
-
-                    //Draw the shape on a temporary bitmap and show it
-                    Graphics g = Graphics.FromImage(tmp);
+                    int x = Math.Min(point.Value.X, e.Location.X);
+                    int y = Math.Min(point.Value.Y, e.Location.Y);
                     Rectangle rect = new Rectangle(x, y, Math.Abs(e.Location.X - point.Value.X), Math.Abs(e.Location.Y - point.Value.Y));
-                    if (rectangleButton.Checked)
-                        g.DrawRectangle(pen, rect);
-                    else if (ellipseButton.Checked)
-                        g.DrawEllipse(pen, rect);
+
+                    using (Graphics g = Graphics.FromImage(tmp))
+                    {
+                        g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
+                        if (rectangleButton.Checked)
+                            g.DrawRectangle(pen, rect);
+                        else if (ellipseButton.Checked)
+                            g.DrawEllipse(pen, rect);
+                    }
+ 
                     pictureBox1.Image = tmp;
                     pictureBox1.Refresh();
-                    g.Dispose();
                 }
-                else if (point==null) //If we can draw, but we don't know where to start - start where you are
+                else if (point == null)
                 {
                     point = e.Location;
                 }
-                else //If we can't draw - empty the starting point (to ensure nothing will be drawn
+                else
                 {
                     point = new Point?();
                 }
-            
             }
-            
-           
         }
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
             if (e.Button == MouseButtons.Left)
             {
-                //_Previous = null;
                 StopDrawing();
                 isDrawable = false;
             }
@@ -205,22 +191,15 @@ namespace WinFormsPaint
 
         private void Form1_SizeChanged(object sender, EventArgs e)
         {
-            try
+            tmp = bmp;
+            bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
+            using (Graphics g = Graphics.FromImage(bmp))
             {
-                Bitmap temp = bmp;
-                bmp = new Bitmap(pictureBox1.Width, pictureBox1.Height);
-                using (Graphics grfx = Graphics.FromImage(bmp))
-                {
-                    grfx.DrawImage(temp, 0, 0);
-                }
-                pictureBox1.Image = bmp;
-                pictureBox1.Invalidate();
+                g.Clear(Color.White);
+                g.DrawImage(tmp, 0, 0);
             }
-            catch(Exception)
-            {
-
-            }
-
+            pictureBox1.Image = bmp;
+            pictureBox1.Invalidate();
         }
 
         private void brushButton_Click(object sender, EventArgs e)
@@ -242,7 +221,6 @@ namespace WinFormsPaint
         private void ThicknessComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             pen = new Pen(this.pen.Color, (int)ThicknessComboBox.SelectedItem);
-
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -324,7 +302,6 @@ namespace WinFormsPaint
                 this.rectangleButton.Checked = true;
                 this.ellipseButton.Checked = false;
             }
-            //make rect
         }
 
         private void ellipseButton_Click(object sender, EventArgs e)
@@ -341,7 +318,6 @@ namespace WinFormsPaint
                 this.rectangleButton.Checked = false;
                 this.ellipseButton.Checked = true;
             }
-            //make ellipse
         }
 
         private void language_Changed(object sender, EventArgs e)
@@ -375,7 +351,7 @@ namespace WinFormsPaint
             }
             //applying resources for 'colors' groupBox
             resources.ApplyResources(groupBox1, groupBox1.Name);
-            
+
         }
     }
 }
