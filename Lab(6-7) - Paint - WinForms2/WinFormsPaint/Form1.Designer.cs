@@ -234,7 +234,7 @@
             this.englishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.englishButton.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             this.englishButton.Name = "englishButton";
-            this.englishButton.Click += new System.EventHandler(this.language_Change);
+            this.englishButton.Click += new System.EventHandler(this.language_Changed);
             // 
             // polishButton
             // 
@@ -243,7 +243,7 @@
             this.polishButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.polishButton.Margin = new System.Windows.Forms.Padding(0, 4, 0, 4);
             this.polishButton.Name = "polishButton";
-            this.polishButton.Click += new System.EventHandler(this.language_Change);
+            this.polishButton.Click += new System.EventHandler(this.language_Changed);
             // 
             // saveFileDialog1
             // 

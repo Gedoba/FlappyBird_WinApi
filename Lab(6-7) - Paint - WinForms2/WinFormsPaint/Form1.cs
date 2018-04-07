@@ -15,6 +15,7 @@ using System.Windows.Forms;
 /// <summary>
 ///  TODO:
 ///  hovering over currentColorButton
+///  ellipse + rect
 /// </summary>
 namespace WinFormsPaint
 {
@@ -128,7 +129,8 @@ namespace WinFormsPaint
                 }
                 using (Graphics g = Graphics.FromImage(pictureBox1.Image))
                 {
-                   
+                    //smoooooth
+                    g.SmoothingMode = System.Drawing.Drawing2D.SmoothingMode.AntiAlias;
                     g.DrawLine(pen, _Previous.Value, e.Location);
                 }
                 pictureBox1.Invalidate();
@@ -284,7 +286,7 @@ namespace WinFormsPaint
             //make ellipse
         }
 
-        private void language_Change(object sender, EventArgs e)
+        private void language_Changed(object sender, EventArgs e)
         {
             ToolStripButton button = (ToolStripButton)sender;
             if (button == englishButton)
