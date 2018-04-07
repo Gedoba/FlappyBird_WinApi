@@ -55,6 +55,7 @@
             this.englishButton = new System.Windows.Forms.ToolStripButton();
             this.polishButton = new System.Windows.Forms.ToolStripButton();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
@@ -170,7 +171,7 @@
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(23, 22);
             this.saveButton.Text = "Save";
-            this.saveButton.Click += new System.EventHandler(this.toolStripButton2_Click);
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // loadButton
             // 
@@ -180,7 +181,7 @@
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(23, 22);
             this.loadButton.Text = "Load";
-            this.loadButton.Click += new System.EventHandler(this.toolStripButton3_Click);
+            this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
             // 
             // toolStripSeparator1
             // 
@@ -201,7 +202,7 @@
             this.brushButton.Name = "brushButton";
             this.brushButton.Size = new System.Drawing.Size(23, 22);
             this.brushButton.Text = "Brush";
-            this.brushButton.Click += new System.EventHandler(this.toolStripButton1_Click);
+            this.brushButton.Click += new System.EventHandler(this.brushButton_Click);
             // 
             // rectangleButton
             // 
@@ -229,6 +230,7 @@
             this.clearButton.Name = "clearButton";
             this.clearButton.Size = new System.Drawing.Size(23, 22);
             this.clearButton.Text = "Clear";
+            this.clearButton.Click += new System.EventHandler(this.clearButton_Click);
             // 
             // toolStripSeparator2
             // 
@@ -299,6 +301,10 @@
             this.polishButton.Size = new System.Drawing.Size(23, 17);
             this.polishButton.Text = "Polish";
             // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -349,6 +355,7 @@
         private System.Windows.Forms.ToolStripLabel ChosenColor;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator4;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
     }
 }
 

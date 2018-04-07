@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Windows.Forms;
@@ -18,6 +19,11 @@ namespace WinFormsPaint
 {
     public partial class Form1 : Form
     {
+        private Point? _Previous = null;
+        private Bitmap bmp;
+        private bool isBrush = false;
+        private Pen pen = new Pen(Color.Black, 2);
+        private Color CurrentColor = Color.Black;
         public Form1()
         {
             InitializeComponent();
@@ -91,15 +97,7 @@ namespace WinFormsPaint
             ThicknessComboBox.SelectedItem = ThicknessComboBox.Items[1];
 
         }
-        Bitmap bmp;
-        bool isBrush = false;
-        Pen pen = new Pen(Color.Black, 2);
-        Color CurrentColor = Color.Black;
-        
-    
 
-
-        private Point? _Previous = null;
         private void pictureBox1_MouseDown_1(object sender, MouseEventArgs e)
         {
             if(isBrush)
@@ -157,14 +155,12 @@ namespace WinFormsPaint
 
         }
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
+        private void brushButton_Click(object sender, EventArgs e)
         {
             if (isBrush)
             {
                 isBrush = false;
                 this.brushButton.Checked = false;
-
-
             }
             else
             {
@@ -179,12 +175,15 @@ namespace WinFormsPaint
 
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+        private void saveButton_Click(object sender, EventArgs e)
         {
             ImageFormat format;
+            saveFileDialog1.Title = "Save img file";
+            saveFileDialog1.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPeg Image|*.jpeg";
+            string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
+            saveFileDialog1.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                //Get proper ImageFormat for saving
                 switch (saveFileDialog1.FilterIndex)
                 {
                     case 0:
@@ -202,9 +201,38 @@ namespace WinFormsPaint
             }
         }
 
-        private void toolStripButton3_Click(object sender, EventArgs e)
+        private void loadButton_Click(object sender, EventArgs e)
         {
+            saveFileDialog1.Title = "Load img file";
+            saveFileDialog1.Filter = "PNG Image|*.png|Bitmap Image|*.bmp|JPeg Image|*.jpeg";
+            string CombinedPath = System.IO.Path.Combine(Directory.GetCurrentDirectory(), "..//..//");
+            saveFileDialog1.InitialDirectory = System.IO.Path.GetFullPath(CombinedPath);
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Bitmap loaded = new Bitmap(openFileDialog1.FileName);
+                Size diff = loaded.Size - bmp.Size;
+                //resizing
+                bmp = loaded;
+                pictureBox1.Size = bmp.Size;
+                pictureBox1.Image = bmp;
+                //protection from cropping
+                this.SizeChanged -= new EventHandler(Form1_SizeChanged);
+                pictureBox1.Refresh();
+                //Change size of form and refresh it
+                this.Size = this.Size + diff;
+                this.Invalidate();
+                // reAdd SizeChanged event
+                this.SizeChanged += new EventHandler(Form1_SizeChanged);
+            }
+        }
 
+        private void clearButton_Click(object sender, EventArgs e)
+        {
+            Graphics graphics = Graphics.FromImage(bmp);
+            graphics.Clear(Color.White);
+            pictureBox1.Image = bmp;
+            pictureBox1.Refresh();
+            graphics.Dispose();
         }
     }
 }
