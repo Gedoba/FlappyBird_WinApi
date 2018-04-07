@@ -73,6 +73,7 @@ namespace WinFormsPaint
                     g.DrawRectangle(p, colorPanel.ClientRectangle);
                     p.Dispose();
                     g.Dispose();
+                    
                     currentColorButton.BackColor = CurrentColor;
 
                 };
@@ -122,13 +123,12 @@ namespace WinFormsPaint
 
         private void StopDrawing()
         {
-            if (rectangleButton.Checked || ellipseButton.Checked) //Here we need to check whether to set temporary bitmap as result
+            if (rectangleButton.Checked || ellipseButton.Checked)
             {
-                if (isDrawable) //Means drawing wasn't cancelled by right-click
+                if (isDrawable)
                 {
                     bmp = tmp;
                 }
-                //Set proper bitmap
                 pictureBox1.Image = bmp;
                 pictureBox1.Refresh();
             }
@@ -179,6 +179,7 @@ namespace WinFormsPaint
                     point = new Point?();
                 }
             }
+            System.GC.Collect();
         }
         private void pictureBox1_MouseUp_1(object sender, MouseEventArgs e)
         {
