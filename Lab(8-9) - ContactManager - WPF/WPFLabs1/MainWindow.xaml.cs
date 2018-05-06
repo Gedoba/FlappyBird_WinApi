@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using System.Xml.Linq;
 using EmailContactsExtension;
 
 namespace WPFLabs1
@@ -22,7 +23,7 @@ namespace WPFLabs1
     /// </summary>
     public partial class MainWindow : Window
     {
-        
+        List<Contact> contacts = new List<Contact>();
         public MainWindow()
         {
             InitializeComponent();
@@ -30,7 +31,7 @@ namespace WPFLabs1
             var user = contactManager.GetUser("mini", "pw");
             if (user == null)
                 return;
-            var contacts = user.GetContacts();
+           contacts = user.GetContacts();
             var contactListTemp = new ObservableCollection<Contact>(contacts);
             this.DataContext = contactListTemp;
         }
@@ -41,11 +42,14 @@ namespace WPFLabs1
             var contactManager = new ContactManager();
             var user = contactManager.GetUser(LoginText.Text, PasswordText.Password);
             if (user == null)
+            {
+               
+                MessageBox.Show("Failed to login", "Error", MessageBoxButton.OK);
                 return;
-            var contacts = user.GetContacts();
+            }
+                
+            contacts = user.GetContacts();
             var contactListTemp = new ObservableCollection<Contact>(contacts);
-            //DataContacts.ItemsSource = contactListTemp;
-            //contactListBox.ItemsSource = contactListTemp;
             this.DataContext = contactListTemp;
 
         }
@@ -53,6 +57,24 @@ namespace WPFLabs1
         private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
         {
             this.Close();
+        }
+
+        private void ImportMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void ExportMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            var xml = new XElement("Contacts", contacts.Select(
+                x => new XElement("contact",
+                new XAttribute("Name", x.Name),
+                new XAttribute("Surname", x.Surname),
+                new XAttribute("Email", x.Email),
+                new XAttribute("Phone", x.Phone),
+                new XAttribute("Gender", x.Gender)
+                )));
+            xml.Save("contacts.xml");
         }
     }   
 
