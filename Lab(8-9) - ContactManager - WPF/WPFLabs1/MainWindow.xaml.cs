@@ -32,9 +32,7 @@ namespace WPFLabs1
                 return;
             var contacts = user.GetContacts();
             var contactListTemp = new ObservableCollection<Contact>(contacts);
-            DataContacts.ItemsSource = contactListTemp;
-            contactListBox.ItemsSource = contactListTemp;
-
+            this.DataContext = contactListTemp;
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -46,8 +44,9 @@ namespace WPFLabs1
                 return;
             var contacts = user.GetContacts();
             var contactListTemp = new ObservableCollection<Contact>(contacts);
-            DataContacts.ItemsSource = contactListTemp;
-            contactListBox.ItemsSource = contactListTemp;
+            //DataContacts.ItemsSource = contactListTemp;
+            //contactListBox.ItemsSource = contactListTemp;
+            this.DataContext = contactListTemp;
 
         }
 
