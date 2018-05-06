@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -21,27 +22,39 @@ namespace WPFLabs1
     /// </summary>
     public partial class MainWindow : Window
     {
+        
         public MainWindow()
         {
             InitializeComponent();
+            var contactManager = new ContactManager();
+            var user = contactManager.GetUser("mini", "pw");
+            if (user == null)
+                return;
+            var contacts = user.GetContacts();
+            var contactListTemp = new ObservableCollection<Contact>(contacts);
+            DataContacts.ItemsSource = contactListTemp;
+            contactListBox.ItemsSource = contactListTemp;
+
         }
 
         private void LoginButton_Click(object sender, RoutedEventArgs e)
         {
 
             var contactManager = new ContactManager();
-            var user = contactManager.GetUser(LoginText.Text, PasswordText.Text);
+            var user = contactManager.GetUser(LoginText.Text, PasswordText.Password);
             if (user == null)
                 return;
             var contacts = user.GetContacts();
-            foreach(var v in contacts)
-            {
-                ListBoxItem itm = new ListBoxItem();
-                itm.Content = v.Name;
-                contactList.Items.Add(itm);
-
-            }
+            var contactListTemp = new ObservableCollection<Contact>(contacts);
+            DataContacts.ItemsSource = contactListTemp;
+            contactListBox.ItemsSource = contactListTemp;
 
         }
-    }
+
+        private void ExitMenuItem_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
+    }   
+
 }
