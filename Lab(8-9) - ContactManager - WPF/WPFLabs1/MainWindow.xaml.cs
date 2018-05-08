@@ -26,20 +26,15 @@ namespace WPFLabs1
     /// </summary>
     public partial class MainWindow : Window
     {
-        List<Contact> contacts = new List<Contact>();
+        //List<Contact> contacts = new List<Contact>();
         User currentUser;
-        ObservableCollection<Contact> contactListTemp = new ObservableCollection<Contact>(); //when inotified update it
+        ObservableCollection<Contact> contacts; //when inotified update it
         public MainWindow()
         {
             InitializeComponent();
-            //var contactManager = new ContactManager();
-            //var user = contactManager.GetUser("mini", "pw");
-            //if (user == null)
-            //    return;
-            //contacts = user.GetContacts();
-            //contactListTemp = new ObservableCollection<Contact>(contacts);
-            this.DataContext = contactListTemp;
-            LowerGridPostlogin.Visibility = Visibility.Collapsed;
+            contacts = new ObservableCollection<Contact>();
+            genderColumn.ItemsSource = new List<Gender>(new Gender[] { Gender.Male, Gender.Female});
+            this.DataContext = contacts;
         }
 
         public void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -50,7 +45,7 @@ namespace WPFLabs1
             if (user == null)
             {
                
-                MessageBox.Show("Failed to login", "Error", MessageBoxButton.OK);
+                MessageBox.Show("Failed to login", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
             currentUser = user;
@@ -58,10 +53,11 @@ namespace WPFLabs1
             UpperGridPrelogin.Visibility = Visibility.Collapsed;
             LowerGridPostlogin.Visibility = Visibility.Visible;
             UpperGridPostlogin.Visibility = Visibility.Visible;
-
-            contacts = user.GetContacts();
-            var contactListTemp = new ObservableCollection<Contact>(contacts);
-            this.DataContext = contactListTemp;
+           
+            var contactsTemp = user.GetContacts();
+            contacts.Clear();
+            contacts = new ObservableCollection<Contact>(contactsTemp);
+            this.DataContext = contacts;
 
         }
 
@@ -83,7 +79,7 @@ namespace WPFLabs1
                 doc.Load(filename);
             }
 
-            contactListTemp.Clear();
+            contacts.Clear();
 
             //LINQ didnt work here, dunno why
             XmlNodeList elemList = doc.GetElementsByTagName("contact");
@@ -100,7 +96,7 @@ namespace WPFLabs1
                 else
                     g = Gender.Male;
                 tempContact.Gender = g;
-                contactListTemp.Add(tempContact);
+                contacts.Add(tempContact);
             }
         }
 
@@ -131,6 +127,7 @@ namespace WPFLabs1
             UpperGridPrelogin.Visibility = Visibility.Visible;
             LowerGridPostlogin.Visibility = Visibility.Collapsed;
             UpperGridPostlogin.Visibility = Visibility.Collapsed;
+            ContactDetailsGrid.Visibility = Visibility.Collapsed;
             LoginText.Clear();
             PasswordText.Clear();
             currentUser = null;
@@ -140,6 +137,17 @@ namespace WPFLabs1
         private void SaveButton_Click(object sender, RoutedEventArgs e)
         {
             currentUser.SaveContacts(contacts.ToList());
+        }
+
+        private void contactListView_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            ContactDetailsGrid.Visibility = Visibility.Visible;
+        }
+
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            //User v = (User)contactListView.SelectedItem;
+            //MessageBox.Show(v.ToString());
         }
     }   
 

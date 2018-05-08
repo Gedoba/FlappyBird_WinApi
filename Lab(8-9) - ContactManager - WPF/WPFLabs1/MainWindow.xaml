@@ -90,7 +90,7 @@
                 <TextBlock Text="{Binding ElementName=LoginText, Path=Text}" FontSize="30" Margin="0 0 0 20" HorizontalAlignment="Center"/>
             </StackPanel>
 
-            
+
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                 <Button Click="SaveButton_Click" Name="SaveButton"  Style="{StaticResource buttonStyle}" Content="Save contacts" Width="100" Margin="0 10 0 10" Height="30"/>
                 <Button Click="LogoutButton_Click" Name="LogoutButton" Content="Logout" Width="100" Style="{StaticResource buttonStyle}" Margin="40 10 0 10" Height="30"/>
@@ -115,6 +115,7 @@
                          VerticalContentAlignment="Stretch"
                          HorizontalContentAlignment="Stretch"
                          ItemsSource="{Binding Source={StaticResource lvSource}}"
+                         PreviewMouseLeftButtonDown="contactListView_PreviewMouseLeftButtonDown"
                          >
                 <ListView.ItemTemplate>
                     <DataTemplate>
@@ -136,43 +137,76 @@
             <StackPanel Background="Black" Grid.Column="1"/>
             <StackPanel Grid.Column="2">
                 <!--Contact details grid-->
-                <!--<Grid x:Name="ContactDetailsGrid">
+                <Grid x:Name="ContactDetailsGrid" Visibility="Collapsed">
+                    <Grid.Background>
+                        <LinearGradientBrush EndPoint="0.504,1.5" StartPoint="0.504,0.03">
+                            <GradientStop Color="#FF34A3FF" Offset="0"/>
+                            <GradientStop Color="#FF954040" Offset="0.567"/>
+                        </LinearGradientBrush>
+                    </Grid.Background>
                     <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="*"/>
-                        <ColumnDefinition Width="3*"/>
-                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="100"/>
                     </Grid.ColumnDefinitions>
-                    <Image Stretch="Fill" Height="140" Width="120" Grid.Column="0" Source="Resources/woman.jpg">
-
+                    <!--Column0-->
+                    <Image Stretch="Fill" Height="140" Width="120" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10 10 10 10" Grid.Column="0">
+                        <Image.Style>
+                            <Style TargetType="Image">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding ElementName=contactListView, Path=SelectedItem.Gender}" Value="Female">
+                                        <Setter Property="Source" Value="Resources/woman.jpg"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding ElementName=contactListView, Path=SelectedItem.Gender}" Value="Male">
+                                        <Setter Property="Source" Value="Resources/man.png"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Image.Style>
                     </Image>
-                    <StackPanel Grid.Column="1">
-                        <TextBlock Text="lolz"/>
-                        <TextBlock Text="lolz"/>
-                        <TextBlock Text="lolz"/>
-                        <TextBlock Text="lolz"/>
-                        <TextBlock Text="lolz"/>
+                    <!--Column1-->
+                    <StackPanel Grid.Column="1" Margin="10">
+                        <StackPanel Orientation="Horizontal" Margin="10 7 0 0">
+                            <TextBlock Text="Name: " FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding ElementName=contactListView, Path=SelectedItem.Name}"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10 7 0 0">
+                            <TextBlock Text="Surname: " FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding ElementName=contactListView, Path=SelectedItem.Surname}"/>
 
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10 7 0 0">
+                            <TextBlock Text="E-mail: " FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding ElementName=contactListView, Path=SelectedItem.Email}"/>
+
+                        </StackPanel>
+                        <StackPanel Orientation="Horizontal" Margin="10 7 0 0">
+                            <TextBlock Text="Phone: " FontWeight="Bold" FontSize="14"/>
+                            <TextBlock Text="{Binding ElementName=contactListView, Path=SelectedItem.Phone}"/>
+
+                        </StackPanel>
                     </StackPanel>
-                    <Button x:Name="deleteButton" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80">
+                    <!--Column2-->
+                    <Button x:Name="deleteButton" Click="deleteButton_Click" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80" Padding="12">
                         <Button.Content>
                             <Image Source="Resources/remove.png"/>
                         </Button.Content>
                     </Button>
-                </Grid>-->
+                </Grid>
                 <DataGrid 
                       Name="DataContacts" AutoGenerateColumns="False"
                       ItemsSource="{Binding}" 
                       >
-                <DataGrid.Columns>
-                    <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
-                    <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
-                    <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
-                    <DataGridTextColumn Header="Phone" Binding="{Binding Phone}"/>
-                    <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
-                </DataGrid.Columns>
-            </DataGrid>
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Name" Binding="{Binding Name}"/>
+                        <DataGridTextColumn Header="Surname" Binding="{Binding Surname}"/>
+                        <DataGridTextColumn Header="Email" Binding="{Binding Email}"/>
+                        <DataGridTextColumn Header="Phone" Binding="{Binding Phone}"/>
+                        <DataGridComboBoxColumn x:Name="genderColumn" Header="Gender" SelectedItemBinding="{Binding Gender}"/>
+                    </DataGrid.Columns>
+                </DataGrid>
             </StackPanel>
-            
+
         </Grid>
         <Grid Grid.Row="3" Name="LowerGridPrelogin">
             <TextBlock Text="Please login to show the contacts"
