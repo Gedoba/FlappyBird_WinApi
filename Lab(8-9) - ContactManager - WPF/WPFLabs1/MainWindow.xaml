@@ -8,11 +8,11 @@
         Title="Contact Manager" Height="600" Width="800" MinWidth="500" MinHeight="500" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <Style TargetType="{x:Type ListBox}">
+        <!--<Style TargetType="{x:Type ListBox}">
             <Setter Property="Background" Value="BlanchedAlmond"/>
             <Setter Property="AlternationCount" Value="2"/>
-        </Style>
-        <Style TargetType="{x:Type ListBoxItem}">
+        </Style>-->
+        <Style TargetType="ListViewItem">
             <Style.Triggers>
                 <Trigger Property="ItemsControl.AlternationIndex" Value="0">
                     <Setter Property="Background" Value="#FFFFC750"></Setter>
@@ -70,14 +70,15 @@
 
             </Grid.ColumnDefinitions>
 
-            <ListBox 
+            <ListView    AlternationCount="2"
+                         Background="BlanchedAlmond"
                          Grid.Column="0" 
                          x:Name="contactListBox"
                          VerticalContentAlignment="Stretch"
                          HorizontalContentAlignment="Stretch"
                          ItemsSource="{Binding Source={StaticResource lvSource}}"
                          >
-                <ListBox.ItemTemplate>
+                <ListView.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Vertical" Height="50">
                             <StackPanel Orientation="Horizontal">
@@ -91,8 +92,8 @@
                             </StackPanel>
                         </StackPanel>
                     </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
+                </ListView.ItemTemplate>
+            </ListView>
 
             <StackPanel Background="Black" Grid.Column="1"/>
             <DataGrid Grid.Column="2"
