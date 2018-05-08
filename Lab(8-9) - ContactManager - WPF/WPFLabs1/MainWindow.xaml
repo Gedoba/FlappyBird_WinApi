@@ -8,10 +8,6 @@
         Title="Contact Manager" Height="600" Width="800" MinWidth="500" MinHeight="500" WindowStartupLocation="CenterScreen">
 
     <Window.Resources>
-        <!--<Style TargetType="{x:Type ListBox}">
-            <Setter Property="Background" Value="BlanchedAlmond"/>
-            <Setter Property="AlternationCount" Value="2"/>
-        </Style>-->
         <Style TargetType="ListViewItem">
             <Style.Triggers>
                 <Trigger Property="ItemsControl.AlternationIndex" Value="0">
@@ -22,9 +18,34 @@
                 </Trigger>
             </Style.Triggers>
         </Style>
+        <Style x:Key="buttonStyle" TargetType="{x:Type Button}">
+            <!--<Setter Property="Background" Value="DarkRed"/>-->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="{x:Type Button}">
+                        <Grid>
+                            <TextBlock Text="{TemplateBinding Content}" HorizontalAlignment="Center" VerticalAlignment="Center" Panel.ZIndex="2"/>
+                            <Ellipse Fill="MediumVioletRed" Width="90" Height="25" x:Name="ellipse" Panel.ZIndex="1">
+                                <Ellipse.Effect>
+                                    <BlurEffect Radius="15"/>
+                                </Ellipse.Effect>
+                            </Ellipse>
+                        </Grid>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Fill" Value="Purple" TargetName="ellipse"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter Property="Fill" Value="Pink" TargetName="ellipse"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
         <CollectionViewSource Source="{Binding}" x:Key="lvSource"/>
     </Window.Resources>
-    
+
     <!--main containter-->
     <Grid>
         <Grid.RowDefinitions>
@@ -43,9 +64,9 @@
 
             </MenuItem>
         </Menu>
-        <StackPanel Background="Beige" Grid.Row="1">
-            <TextBlock Text="Konto Użytkownika" FontSize="30" Margin="0 0 0 20" HorizontalAlignment="Center"/>
-            <!--upper grid-->
+        <!--upper grid prelogin-->
+        <StackPanel Background="Beige" Grid.Row="1" x:Name="UpperGridPrelogin">
+            <TextBlock Text="User Account" FontSize="30" Margin="0 0 0 20" HorizontalAlignment="Center"/>
             <Grid>
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
@@ -53,16 +74,33 @@
                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
                     <TextBlock  Text="Login:" FontSize="16" Margin="0 0 10 0 "></TextBlock>
                     <TextBox Name="LoginText" Padding="2" Width="140"></TextBox>
-                    <TextBlock   Text="Hasło:" FontSize="16" Margin="10 0 10 0"></TextBlock>
+                    <TextBlock   Text="Password:" FontSize="16" Margin="10 0 10 0"></TextBlock>
                     <PasswordBox Name="PasswordText" Padding="2" Width="140"></PasswordBox>
                 </StackPanel>
             </Grid>
-            <Button Click="LoginButton_Click" Name="LoginButton" Content="Zaloguj się" Width="100" Margin="0 10 0 10" Height="30"/>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Click="LoginButton_Click" Name="LoginButton"  Style="{StaticResource buttonStyle}" Content="Login" Width="100" Margin="0 10 0 10" Height="30"/>
+                <Button Click="RegisterButton_Click" Name="RegisterButton" Content="Register" Width="100" Style="{StaticResource buttonStyle}" Margin="40 10 0 10" Height="30"/>
+            </StackPanel>
         </StackPanel>
+        <!--UpperGrid post-login -->
+        <StackPanel Background="Beige" Grid.Row="1" x:Name="UpperGridPostlogin" Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <TextBlock Text="Logged as: " FontSize="30" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+                <TextBlock Text="{Binding ElementName=LoginText, Path=Text}" FontSize="30" Margin="0 0 0 20" HorizontalAlignment="Center"/>
+            </StackPanel>
+
+            
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                <Button Click="SaveButton_Click" Name="SaveButton"  Style="{StaticResource buttonStyle}" Content="Save contacts" Width="100" Margin="0 10 0 10" Height="30"/>
+                <Button Click="LogoutButton_Click" Name="LogoutButton" Content="Logout" Width="100" Style="{StaticResource buttonStyle}" Margin="40 10 0 10" Height="30"/>
+            </StackPanel>
+        </StackPanel>
+
         <!--separator-->
         <StackPanel Background="Black" Grid.Row="2"/>
         <!--lower grid-->
-        <Grid Grid.Row="3">
+        <Grid Grid.Row="3" Name="LowerGridPostlogin">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="250"/>
                 <ColumnDefinition Width="2"/>
@@ -73,14 +111,14 @@
             <ListView    AlternationCount="2"
                          Background="BlanchedAlmond"
                          Grid.Column="0" 
-                         x:Name="contactListBox"
+                         x:Name="contactListView"
                          VerticalContentAlignment="Stretch"
                          HorizontalContentAlignment="Stretch"
                          ItemsSource="{Binding Source={StaticResource lvSource}}"
                          >
                 <ListView.ItemTemplate>
                     <DataTemplate>
-                        <StackPanel Orientation="Vertical" Height="50">
+                        <StackPanel Orientation="Vertical" Height="40">
                             <StackPanel Orientation="Horizontal">
                                 <TextBlock Text="{Binding Name}" FontSize="16"/>
                                 <TextBlock Text=" " FontSize="16"/>
@@ -96,7 +134,32 @@
             </ListView>
 
             <StackPanel Background="Black" Grid.Column="1"/>
-            <DataGrid Grid.Column="2"
+            <StackPanel Grid.Column="2">
+                <!--Contact details grid-->
+                <!--<Grid x:Name="ContactDetailsGrid">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="3*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Image Stretch="Fill" Height="140" Width="120" Grid.Column="0" Source="Resources/woman.jpg">
+
+                    </Image>
+                    <StackPanel Grid.Column="1">
+                        <TextBlock Text="lolz"/>
+                        <TextBlock Text="lolz"/>
+                        <TextBlock Text="lolz"/>
+                        <TextBlock Text="lolz"/>
+                        <TextBlock Text="lolz"/>
+
+                    </StackPanel>
+                    <Button x:Name="deleteButton" Grid.Column="2" HorizontalAlignment="Center" VerticalAlignment="Center" Width="80" Height="80">
+                        <Button.Content>
+                            <Image Source="Resources/remove.png"/>
+                        </Button.Content>
+                    </Button>
+                </Grid>-->
+                <DataGrid 
                       Name="DataContacts" AutoGenerateColumns="False"
                       ItemsSource="{Binding}" 
                       >
@@ -108,6 +171,21 @@
                     <DataGridTextColumn Header="Gender" Binding="{Binding Gender}"/>
                 </DataGrid.Columns>
             </DataGrid>
+            </StackPanel>
+            
+        </Grid>
+        <Grid Grid.Row="3" Name="LowerGridPrelogin">
+            <TextBlock Text="Please login to show the contacts"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="25"
+                       />
+            <Grid.Background>
+                <RadialGradientBrush>
+                    <GradientStop Color="Black" Offset="1"/>
+                    <GradientStop Color="DarkRed"/>
+                </RadialGradientBrush>
+            </Grid.Background>
         </Grid>
     </Grid>
 </Window>

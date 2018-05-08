@@ -27,6 +27,7 @@ namespace WPFLabs1
     public partial class MainWindow : Window
     {
         List<Contact> contacts = new List<Contact>();
+        User currentUser;
         ObservableCollection<Contact> contactListTemp = new ObservableCollection<Contact>(); //when inotified update it
         public MainWindow()
         {
@@ -38,6 +39,7 @@ namespace WPFLabs1
             //contacts = user.GetContacts();
             //contactListTemp = new ObservableCollection<Contact>(contacts);
             this.DataContext = contactListTemp;
+            LowerGridPostlogin.Visibility = Visibility.Collapsed;
         }
 
         public void LoginButton_Click(object sender, RoutedEventArgs e)
@@ -51,7 +53,12 @@ namespace WPFLabs1
                 MessageBox.Show("Failed to login", "Error", MessageBoxButton.OK);
                 return;
             }
-                
+            currentUser = user;
+            LowerGridPrelogin.Visibility = Visibility.Collapsed;
+            UpperGridPrelogin.Visibility = Visibility.Collapsed;
+            LowerGridPostlogin.Visibility = Visibility.Visible;
+            UpperGridPostlogin.Visibility = Visibility.Visible;
+
             contacts = user.GetContacts();
             var contactListTemp = new ObservableCollection<Contact>(contacts);
             this.DataContext = contactListTemp;
@@ -108,6 +115,31 @@ namespace WPFLabs1
                 new XAttribute("Gender", x.Gender)
                 )));
             xml.Save("contacts.xml");
+        }
+
+        private void RegisterButton_Click(object sender, RoutedEventArgs e)
+        {
+            this.Opacity = 0.7;
+            var registerWindow = new Register();
+            registerWindow.Owner = this;
+            registerWindow.ShowDialog();
+        }
+
+        private void LogoutButton_Click(object sender, RoutedEventArgs e)
+        {
+            LowerGridPrelogin.Visibility = Visibility.Visible;
+            UpperGridPrelogin.Visibility = Visibility.Visible;
+            LowerGridPostlogin.Visibility = Visibility.Collapsed;
+            UpperGridPostlogin.Visibility = Visibility.Collapsed;
+            LoginText.Clear();
+            PasswordText.Clear();
+            currentUser = null;
+
+        }
+
+        private void SaveButton_Click(object sender, RoutedEventArgs e)
+        {
+            currentUser.SaveContacts(contacts.ToList());
         }
     }   
 
