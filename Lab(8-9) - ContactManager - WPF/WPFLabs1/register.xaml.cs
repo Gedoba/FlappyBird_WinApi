@@ -55,13 +55,13 @@ namespace WPFLabs1
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
         {
+            password = PasswordTextBox.Password;
             if (String.IsNullOrEmpty(login) || String.IsNullOrEmpty(password))
                 MessageBox.Show("You have to fill all fields.", "An error occured!", MessageBoxButton.OK);
             else if (PasswordTextBox.Password != ConfirmPasswordTextBox.Password)
                 MessageBox.Show("Passwords don't match!", "An error occured!", MessageBoxButton.OK);
             else
             {
-                password = PasswordTextBox.Password;
                 var manager = new ContactManager();
                 manager.RegisterUser(login, password);
                 User user = manager.GetUser(login, password);

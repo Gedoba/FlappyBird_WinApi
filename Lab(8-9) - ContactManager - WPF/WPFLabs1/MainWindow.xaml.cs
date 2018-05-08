@@ -102,6 +102,12 @@ namespace WPFLabs1
 
         public void ExportMenuItem_Click(object sender, RoutedEventArgs e)
         {
+            var dlg = new SaveFileDialog();
+            dlg.DefaultExt = ".xml";
+            dlg.Filter = "XML documents (.xml)|*.xml";
+            Nullable<bool> result = dlg.ShowDialog();
+
+
             var xml = new XElement("Contacts", contacts.Select(
                 x => new XElement("contact",
                 new XAttribute("Name", x.Name),
@@ -110,7 +116,13 @@ namespace WPFLabs1
                 new XAttribute("Phone", x.Phone),
                 new XAttribute("Gender", x.Gender)
                 )));
-            xml.Save("contacts.xml");
+
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                xml.Save(filename);
+            }
+
         }
 
         private void RegisterButton_Click(object sender, RoutedEventArgs e)
@@ -146,8 +158,7 @@ namespace WPFLabs1
 
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            //User v = (User)contactListView.SelectedItem;
-            //MessageBox.Show(v.ToString());
+            contacts.RemoveAt(contactListView.SelectedIndex);
         }
     }   
 
