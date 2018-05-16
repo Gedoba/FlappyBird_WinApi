@@ -62,10 +62,10 @@
             <Validation.ErrorTemplate>
                 <ControlTemplate>
                     <DockPanel>
-                        <StackPanel Orientation="Horizontal" DockPanel.Dock="Right" Margin="2">
+                        <StackPanel Orientation="Horizontal" Margin="2" DockPanel.Dock="Right">
                             <Grid Width="15" Height="15">
                                 <Rectangle Width="15" Height="15" Fill="Red" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                <TextBlock Foreground="White" FontWeight="Heavy" FontSize="8" HorizontalAlignment="Center" VerticalAlignment="Center" TextAlignment="Center" ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
+                                <TextBlock Foreground="White"  FontSize="8" HorizontalAlignment="Center" FontWeight="Heavy" VerticalAlignment="Center" TextAlignment="Center" ToolTip="{Binding ElementName=ErrorAdorner, Path=AdornedElement.(Validation.Errors)[0].ErrorContent}">
                                         X
                                 </TextBlock>
                             </Grid>
@@ -76,7 +76,7 @@
             </Validation.ErrorTemplate>
         </TextBox>
 
-        <TextBlock Text="E-mail:" FontSize="12" VerticalAlignment="Center" Grid.Row="2" HorizontalAlignment="Left" Margin="20 0"/>
+        <TextBlock Text="E-mail:" VerticalAlignment="Center" Grid.Row="2" FontSize="12" HorizontalAlignment="Left" Margin="20 0"/>
         <TextBox x:Name="EmailTextBox" Style="{StaticResource boxValidation}" Padding="2" Height="25"  Grid.Row="2" VerticalAlignment="Center" HorizontalAlignment="Right" Width="110" Margin="0 0 20 0">
             <TextBox.Text>
                 <Binding Path="Email" UpdateSourceTrigger="PropertyChanged" NotifyOnValidationError="true" ValidatesOnExceptions="true">

@@ -26,9 +26,8 @@ namespace WPFLabs1
     /// </summary>
     public partial class MainWindow : Window
     {
-        //List<Contact> contacts = new List<Contact>();
         User currentUser;
-        ObservableCollection<Contact> contacts; //when inotified update it
+        ObservableCollection<Contact> contacts;
         public MainWindow()
         {
             InitializeComponent();
@@ -44,7 +43,6 @@ namespace WPFLabs1
             var user = contactManager.GetUser(LoginText.Text, PasswordText.Password);
             if (user == null)
             {
-               
                 MessageBox.Show("Failed to login", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
@@ -72,7 +70,7 @@ namespace WPFLabs1
             var dlg = new OpenFileDialog();
             dlg.DefaultExt = ".xml";
             dlg.Filter = "XML documents (.xml)|*.xml";
-            Nullable<bool> result = dlg.ShowDialog();
+            bool? result = dlg.ShowDialog();
             if (result == true)
             {
                 string filename = dlg.FileName;
@@ -105,8 +103,7 @@ namespace WPFLabs1
             var dlg = new SaveFileDialog();
             dlg.DefaultExt = ".xml";
             dlg.Filter = "XML documents (.xml)|*.xml";
-            Nullable<bool> result = dlg.ShowDialog();
-
+            bool? result = dlg.ShowDialog();
 
             var xml = new XElement("Contacts", contacts.Select(
                 x => new XElement("contact",

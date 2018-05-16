@@ -21,7 +21,7 @@ namespace WPFLabs1
     /// </summary>
     public partial class Register : Window
     {
-                string login;
+        string login;
         string email;
         string password;
         public Register()
