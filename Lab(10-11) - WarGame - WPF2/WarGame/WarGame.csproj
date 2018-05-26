@@ -96,11 +96,12 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="back1.png" />
-    <Resource Include="Resources\cards.jpg" />
+    <Content Include="Resources\cards.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="cards.jpg" />
+    <Resource Include="Resources\back1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

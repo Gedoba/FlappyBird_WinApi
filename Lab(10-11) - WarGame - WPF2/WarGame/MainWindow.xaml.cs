@@ -21,6 +21,7 @@ namespace WarGame
     /// </summary>
     public partial class MainWindow : Window
     {
+        Random random = new Random();
         public MainWindow()
         {
             InitializeComponent();
@@ -28,21 +29,45 @@ namespace WarGame
 
         private void deck1Button_Click(object sender, RoutedEventArgs e)
         {
-            // Create an Image element.
-            // Create an Image element.
-            //Image croppedImage = new Image();
-            //croppedImage.Width = 200;
-            //croppedImage.Margin = new Thickness(5);
-            BitmapSource bSource = new BitmapImage(new Uri("C:\\Users\\286327\\source\\repos\\WarGame\\WarGame\\cards.jpg"));
-            // Create a CroppedBitmap based off of a xaml defined resource.
-            CroppedBitmap cb = new CroppedBitmap(
-               bSource,
-               new Int32Rect(226, 0, 225, 315));       //select region rect
-            //croppedImage.Source = cb;
+            //(x: 0-12): A, 2, 3,..., Q, K
+            //(y: 0-3): hearts (♥), spades (♠),  diamonds(♦) and clubs (♣)
+            int x = random.Next(0,12);
+            int y = random.Next(0, 3);
+            BitmapSource bSource = new BitmapImage(new Uri("pack://application:,,,/Resources/cards.jpg"));
+            CroppedBitmap cb = new CroppedBitmap(bSource, new Int32Rect(x*225, y*315, 225, 315));
             card1Img.Source = cb;
-            cb = new CroppedBitmap(bSource, new Int32Rect(226, 316, 225, 315));       //select region rect
+            x = random.Next(0, 12);
+            y = random.Next(0, 3);
+            cb = new CroppedBitmap(bSource, new Int32Rect(x*225, y*315, 225, 315));
             card2Img.Source = cb;
+            decreaseDeckSize();
 
+        }
+
+        private void deck2Button_Click(object sender, RoutedEventArgs e)
+        {
+            //(x: 0-12): A, 2, 3,..., Q, K
+            //(y: 0-3): hearts (♥), spades (♠),  diamonds(♦) and clubs (♣)
+            int x = random.Next(0, 12);
+            int y = random.Next(0, 3);
+            BitmapSource bSource = new BitmapImage(new Uri("pack://application:,,,/Resources/cards.jpg"));
+            CroppedBitmap cb = new CroppedBitmap(bSource, new Int32Rect(x * 225, y * 315, 225, 315));
+            card1Img.Source = cb;
+            x = random.Next(0, 12);
+            y = random.Next(0, 3);
+            cb = new CroppedBitmap(bSource, new Int32Rect(x * 225, y * 315, 225, 315));
+            card2Img.Source = cb;
+            decreaseDeckSize();
+
+        }
+        private void decreaseDeckSize()
+        {
+            int deck1Size = Int32.Parse(deck1SizeText.Text);
+            int deck2Size = Int32.Parse(deck2SizeText.Text);
+            deck1Size--;
+            deck2Size--;
+            deck1SizeText.Text = deck1Size.ToString();
+            deck2SizeText.Text = deck2Size.ToString();
         }
     }
 }
