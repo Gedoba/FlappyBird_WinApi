@@ -27,7 +27,7 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
-            <RowDefinition Height="40"/>
+            <RowDefinition Height="100"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
@@ -76,6 +76,29 @@
 
 
         </Grid>
+        <Grid Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="150"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="80"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Move speed" FontSize="20" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Margin="10 0"/>
+            <Slider Name="slider1" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" TickFrequency="0.01" IsSnapToTickEnabled="True" Minimum="0.1" Maximum="2" Width="300" Margin="0 0 30 0" Grid.Column="1" Grid.Row="0"/>
+            <TextBlock Name="lblTest" Text="{Binding ElementName=slider1, Path=Value, StringFormat={}{0:0.00}s}" FontSize="20" Grid.Column="2" Grid.Row="0"/>
+    
+
+            <Label Content="Rotate speed" FontSize="20" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Margin="10 0" />
+            <Slider Name="slider2" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" TickFrequency="0.01" IsSnapToTickEnabled="True" Minimum="0.1" Maximum="2" Width="300" Margin="0 0 30 0" Grid.Column="1" Grid.Row="1"/>
+            <TextBlock Name="lblTest1" Text="{Binding ElementName=slider2, Path=Value, StringFormat={}{0:0.00}s}" FontSize="20" Grid.Column="2" Grid.Row="1"/>
+
+
+
+        </Grid>
         <Grid Grid.Row="3">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*"/>
@@ -85,9 +108,10 @@
                 <Button Name="resetButton" Click="resetButton_Click" Content="Reset" Height="30" Width="110" />
                 <Button Name="skipButton" Click="skipButton_Click" Content="Skip to end" Height="30" Width="110" Margin="20 0 0 0"/>
                 <Button Name="simulateButton"  Content="Simulate" Height="30" Width="110" Margin="20 0 0 0"/>
-                <Button Name="changeBackButton"  Content="Change Back" Height="30" Width="110" Margin="20 0 0 0"/>
+                <Button Name="changeBackButton" Click="changeBackButton_Click"  Content="Change Back" Height="30" Width="110" Margin="20 0 0 0"/>
             </StackPanel>
             <CheckBox Name="ShowWarsCheckBox" Content="Show wars" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 10 10"/>
         </Grid>
+        <GroupBox Grid.Column="1" Grid.RowSpan="4" Header="GroupBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="240"/>
     </Grid>
 </Window>

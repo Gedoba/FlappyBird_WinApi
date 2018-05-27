@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -253,7 +254,8 @@ namespace WarGame
         }
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
-
+            Score1 = 0;
+            Score2 = 0;
             deck1Button.IsEnabled = true;
             BitmapSource bSource = new BitmapImage(new Uri("pack://application:,,,/Resources/back1.png"));
             Image back = new Image();
@@ -286,6 +288,27 @@ namespace WarGame
             while (player1.Cards.Count > 0 && player2.Cards.Count > 0)
             {
                 deck1Button_Click(sender, e);
+            }
+        }
+
+        private void changeBackButton_Click(object sender, RoutedEventArgs e)
+        {
+            var dlg = new OpenFileDialog();
+            dlg.DefaultExt = ".png";
+            dlg.Filter = "All supported graphics|*.png;*.jpg;*.jpeg|JPEG|*.jpg;*.jpeg|Portable Network Graphics|*.png" ;
+            bool? result = dlg.ShowDialog();
+            if (result == true)
+            {
+                string filename = dlg.FileName;
+                BitmapSource bSource = new BitmapImage(new Uri(filename));
+                Image back = new Image();
+                Image back1 = new Image();
+                back.Source = bSource;
+                back1.Source = bSource;
+                back.Stretch = Stretch.Fill;
+                back1.Stretch = Stretch.Fill;
+                deck1Button.Content = back;
+                deck2Button.Content = back1;
             }
         }
     }
