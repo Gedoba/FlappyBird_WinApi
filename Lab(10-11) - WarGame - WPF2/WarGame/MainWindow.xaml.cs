@@ -36,7 +36,7 @@ namespace WarGame
             get { return deck1Size; }
             set
             {
-                deck1Size = value;
+                deck1Size = player1.Cards.Count;
                 OnPropertyChanged("Deck1Size");
             }
         }
@@ -45,7 +45,7 @@ namespace WarGame
             get { return deck2Size; }
             set
             {
-                deck2Size = value;
+                deck2Size = player2.Cards.Count;
                 OnPropertyChanged("Deck2Size");
             }
         }
@@ -166,6 +166,44 @@ namespace WarGame
                 {
                     MessageBox.Show("war");
                 }
+            }
+        }
+
+        private void resetButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            deck1Button.IsEnabled = true;
+            BitmapSource bSource = new BitmapImage(new Uri("pack://application:,,,/Resources/back1.png"));
+            Image back = new Image();
+            Image back1 = new Image();
+            back.Source = bSource;
+            back1.Source = bSource;
+            deck1Button.Content = back;
+            deck2Button.IsEnabled = true;
+            deck2Button.Content = back1;
+            deck.Clear();
+            for (int i = 0; i < 13; i++)
+            {
+                for (int j = 0; j < 4; j++)
+                {
+                    deck.Add(new Card(i, j));
+                }
+            }
+            deck = deck.OrderBy(item => random.Next()).ToList();
+            player1 = new Player();
+            player2 = new Player();
+            Deck1Size = 26;
+            Deck2Size = 26;
+            card1Img.Source = null;
+            card2Img.Source = null;
+
+        }
+
+        private void skipButton_Click(object sender, RoutedEventArgs e)
+        {
+            while(player1.Cards.Count > 0 && player2.Cards.Count > 0)
+            {
+                deck1Button_Click(sender, e);
             }
         }
     }
