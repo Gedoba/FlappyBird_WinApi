@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
@@ -21,6 +22,13 @@ namespace WarGame
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
+    /// 
+    public class HighScores
+    {
+        public int Score { get; set; }
+        public string Name { get; set; }
+    }
+
     public partial class MainWindow : Window, INotifyPropertyChanged
     {
         Random random = new Random();
@@ -31,6 +39,9 @@ namespace WarGame
         int score2 = 0;
         Player player1;
         Player player2;
+        ObservableCollection<Card> deck1View;
+        ObservableCollection<Card> deck2View;
+
 
         public int Deck1Size
         {
@@ -85,6 +96,11 @@ namespace WarGame
             deck = deck.OrderBy(item => random.Next()).ToList();
             player1 = new Player();
             player2 = new Player();
+            deck1View = new ObservableCollection<Card>(player1.Cards);
+            deck2View = new ObservableCollection<Card>(player2.Cards);
+            deck1ListView.ItemsSource = deck1View;
+            deck2ListView.ItemsSource = deck2View;
+            //highscores = new ObservableCollection<(int Score, string player)>();
         }
 
         protected virtual void OnPropertyChanged(string propertyName)
@@ -131,19 +147,32 @@ namespace WarGame
         }
         private void checkFinishConditions()
         {
+            deck1View = new ObservableCollection<Card>(player1.Cards);
+            deck2View = new ObservableCollection<Card>(player2.Cards);
+            deck1ListView.ItemsSource = deck1View;
+            deck2ListView.ItemsSource = deck2View;
             if (player1.Cards.Count == 0 || player2.Cards.Count == 0)
             {
                 if (player1.Cards.Count == 0)
-                    deck1Button.Content = null;
+                {
+                    deck1Button.Visibility = Visibility.Hidden;
+                    deck2Button.IsEnabled = false;
+                }
                 if (player2.Cards.Count == 0)
-                    deck2Button.Content = null;
-
-                deck1Button.IsEnabled = false;
-                deck2Button.IsEnabled = false;
+                {
+                    deck2Button.Visibility = Visibility.Hidden;
+                    deck1Button.IsEnabled = false;
+                }
                 Deck1Size--;
                 Deck2Size--;
                 card1Img.Source = null;
                 card2Img.Source = null;
+                //save highscore
+                if (score1 > score2)
+                    highscoresListView.Items.Add(new HighScores { Name = "Left", Score = score1 });
+                else
+                    highscoresListView.Items.Add(new HighScores { Name = "Right", Score = score2 });
+                highscoresListView.Items.SortDescriptions.Add(new SortDescription("Score", ListSortDirection.Descending));
                 return;
             }
         }
@@ -256,15 +285,8 @@ namespace WarGame
         {
             Score1 = 0;
             Score2 = 0;
-            deck1Button.IsEnabled = true;
-            BitmapSource bSource = new BitmapImage(new Uri("pack://application:,,,/Resources/back1.png"));
-            Image back = new Image();
-            Image back1 = new Image();
-            back.Source = bSource;
-            back1.Source = bSource;
-            deck1Button.Content = back;
-            deck2Button.IsEnabled = true;
-            deck2Button.Content = back1;
+            deck1Button.Visibility = Visibility.Visible;
+            deck2Button.Visibility = Visibility.Visible;
             deck.Clear();
             for (int i = 0; i < 13; i++)
             {
@@ -280,6 +302,10 @@ namespace WarGame
             Deck2Size = 26;
             card1Img.Source = null;
             card2Img.Source = null;
+            deck1View = new ObservableCollection<Card>(player1.Cards);
+            deck2View = new ObservableCollection<Card>(player2.Cards);
+            deck1ListView.ItemsSource = deck1View;
+            deck2ListView.ItemsSource = deck2View;
 
         }
 
@@ -301,6 +327,7 @@ namespace WarGame
             {
                 string filename = dlg.FileName;
                 BitmapSource bSource = new BitmapImage(new Uri(filename));
+                bSource.Freeze();
                 Image back = new Image();
                 Image back1 = new Image();
                 back.Source = bSource;

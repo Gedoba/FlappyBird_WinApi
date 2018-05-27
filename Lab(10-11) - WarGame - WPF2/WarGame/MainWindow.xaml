@@ -7,21 +7,25 @@
         mc:Ignorable="d"
         Title="This is war" Height="600" Width="1000" MinWidth="1000" MinHeight="600"
         >
+
     <Window.Resources>
-        <Style x:Key = "TriggerStyle" TargetType = "Button">
-            <!--<Setter Property = "Foreground" Value = "Blue" />
+        <Style x:Key="Shadow" TargetType="{x:Type Image}">
+            <Setter Property="Effect">
+                <Setter.Value>
+                    <DropShadowEffect BlurRadius="10"/>
+                </Setter.Value>
+            </Setter>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Foreground" Value="Black" />
-                    <Setter Property="Button.Effect">
+                    <Setter Property="Effect">
                         <Setter.Value>
-                            <DropShadowEffect Color="Black" Direction="320" ShadowDepth="3" BlurRadius="5" Opacity="0.5" />
+                            <DropShadowEffect BlurRadius="50"/>
                         </Setter.Value>
                     </Setter>
+                    <Setter Property="Cursor" Value="Hand" />
                 </Trigger>
-            </Style.Triggers>-->
+            </Style.Triggers>
         </Style>
-
     </Window.Resources>
     <Grid>
         <Grid.RowDefinitions>
@@ -53,19 +57,16 @@
                 <RowDefinition Height="150"/>
                 <RowDefinition Height="35"/>
             </Grid.RowDefinitions>
-            <Button Name="deck1Button" Click="deck1Button_Click" Background="Transparent" Height="150" Width="110" Grid.Column="0" BorderThickness="0" Style="{StaticResource TriggerStyle}">
-                <!--<Button.BitmapEffect>
-                        <DropShadowBitmapEffect Color="Black" Direction="320" Softness="1" ShadowDepth="10" Opacity="0.5" />
-                    </Button.BitmapEffect>-->
+            <Button Name="deck1Button" Click="deck1Button_Click" Background="Transparent" Height="150" Width="110" Grid.Column="0" BorderThickness="0">
                 <Button.Content>
-                    <Image Source="Resources/back1.png"/>
+                    <Image Source="Resources/back1.png"  Style="{StaticResource Shadow}"/>
                 </Button.Content>
             </Button>
             <TextBlock Name="deck1SizeText" Text="{Binding Deck1Size,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="0"/>
 
-            <Button Name="deck2Button" Click="deck2Button_Click" Background="Transparent" Height="150" Width="110" Grid.Column="2" BorderThickness="0" Style="{StaticResource TriggerStyle}">
+            <Button Name="deck2Button" Click="deck2Button_Click" Background="Transparent" Height="150" Width="110" Grid.Column="2" BorderThickness="0">
                 <Button.Content>
-                    <Image Source="Resources/back1.png"/>
+                    <Image Source="Resources/back1.png"  Style="{StaticResource Shadow}"/>
                 </Button.Content>
             </Button>
             <TextBlock Name="deck2SizeText" Text="{Binding Deck2Size,RelativeSource={RelativeSource Mode=FindAncestor,AncestorType=Window}}" FontSize="25" HorizontalAlignment="Center" VerticalAlignment="Bottom" Grid.Row="2" Grid.Column="2"/>
@@ -90,7 +91,7 @@
             <Label Content="Move speed" FontSize="20" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Right" Margin="10 0"/>
             <Slider Name="slider1" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" TickFrequency="0.01" IsSnapToTickEnabled="True" Minimum="0.1" Maximum="2" Width="300" Margin="0 0 30 0" Grid.Column="1" Grid.Row="0"/>
             <TextBlock Name="lblTest" Text="{Binding ElementName=slider1, Path=Value, StringFormat={}{0:0.00}s}" FontSize="20" Grid.Column="2" Grid.Row="0"/>
-    
+
 
             <Label Content="Rotate speed" FontSize="20" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Right" Margin="10 0" />
             <Slider Name="slider2" AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" VerticalAlignment="Center" TickFrequency="0.01" IsSnapToTickEnabled="True" Minimum="0.1" Maximum="2" Width="300" Margin="0 0 30 0" Grid.Column="1" Grid.Row="1"/>
@@ -112,6 +113,64 @@
             </StackPanel>
             <CheckBox Name="ShowWarsCheckBox" Content="Show wars" Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="0 0 10 10"/>
         </Grid>
-        <GroupBox Grid.Column="1" Grid.RowSpan="4" Header="GroupBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="240"/>
+        <TabControl Grid.Column="1" Grid.RowSpan="4" HorizontalAlignment="Right" VerticalAlignment="Top" Width="250">
+            <TabItem Header="Player's cards">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <ListView    
+                         x:Name="deck1ListView"
+                         VerticalContentAlignment="Stretch"
+                         HorizontalContentAlignment="Stretch"
+                         ItemsSource="{Binding}"
+                         >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" Height="75" Width="55">
+                                    <Image Source="{Binding ImageSrc}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+
+                    <ListView    Grid.Column="1"
+                         x:Name="deck2ListView"
+                         VerticalContentAlignment="Stretch"
+                         HorizontalContentAlignment="Stretch"
+                         ItemsSource="{Binding}"
+                         >
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Vertical" Height="75" Width="55">
+                                    <Image Source="{Binding ImageSrc}" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </Grid>
+
+
+            </TabItem>
+
+            <TabItem Header="Highscores">
+                <DataGrid 
+                        IsReadOnly="True"
+                      Name="highscoresListView" AutoGenerateColumns="False"
+                      ItemsSource="{Binding}" 
+                    
+                      >
+                    <DataGrid.Columns>
+                        <DataGridTextColumn Header="Player" Binding="{Binding Path=Name}"/>
+                        <DataGridTextColumn Header="Score" Binding="{Binding Path=Score}"/>
+                       
+                    </DataGrid.Columns>
+                </DataGrid>
+            </TabItem>
+        </TabControl>
+        <!--<GroupBox Grid.Column="1" Grid.RowSpan="4" Header="GroupBox" HorizontalAlignment="Right" VerticalAlignment="Top" Width="240">-->
+
+        <!--</GroupBox>-->
     </Grid>
 </Window>
