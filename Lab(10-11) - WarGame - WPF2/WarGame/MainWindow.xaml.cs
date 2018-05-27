@@ -74,9 +74,9 @@ namespace WarGame
         public MainWindow()
         {
             InitializeComponent();
-            for(int i = 0; i<13; i++)
+            for (int i = 0; i < 13; i++)
             {
-                for(int j = 0; j<4; j++)
+                for (int j = 0; j < 4; j++)
                 {
                     deck.Add(new Card(i, j));
                 }
@@ -97,6 +97,7 @@ namespace WarGame
         {
             //(x: 0-12): A, 2, 3,..., Q, K
             //(y: 0-3): hearts (♥), spades (♠),  diamonds(♦) and clubs (♣)
+
             Card card1 = player1.Cards[0];
             Card card2 = player2.Cards[0];
             card1Img.Source = player1.Cards[0].ImageSrc;
@@ -105,32 +106,46 @@ namespace WarGame
             player2.Cards.RemoveAt(0);
             Deck1Size--;
             Deck2Size--;
-            if (player1.Cards.Count == 0)
-            {
-                deck1Button.IsEnabled = false;
-                deck1Button.Content = null;
-            }
-            if (player2.Cards.Count == 0)
-            {
-                deck2Button.IsEnabled = false;
-                deck2Button.Content = null;
-            }
+
             if (card1.Val > card2.Val)
-                Score1++;
+            {
+                Score1 = Score1 + 2;
+                player1.Cards.Add(card2);
+                player1.Cards.Add(card1);
+            }
+
             else if (card1.Val < card2.Val)
-                Score2++;
+            {
+                Score2 = Score2 + 2;
+                player2.Cards.Add(card1);
+                player2.Cards.Add(card2);
+            }
+
             else
             {
-                Score1++;
-                Score2++;
-                if((bool)ShowWarsCheckBox.IsChecked)
-                {
-                    MessageBox.Show("war");
-                }
+                war(card1, card2, new List<Card>());
             }
-            
-        }
+            checkFinishConditions();
 
+        }
+        private void checkFinishConditions()
+        {
+            if (player1.Cards.Count == 0 || player2.Cards.Count == 0)
+            {
+                if (player1.Cards.Count == 0)
+                    deck1Button.Content = null;
+                if (player2.Cards.Count == 0)
+                    deck2Button.Content = null;
+
+                deck1Button.IsEnabled = false;
+                deck2Button.IsEnabled = false;
+                Deck1Size--;
+                Deck2Size--;
+                card1Img.Source = null;
+                card2Img.Source = null;
+                return;
+            }
+        }
         private void deck2Button_Click(object sender, RoutedEventArgs e)
         {
             //(x: 0-12): A, 2, 3,..., Q, K
@@ -143,32 +158,99 @@ namespace WarGame
             player2.Cards.RemoveAt(0);
             Deck1Size--;
             Deck2Size--;
-            if (player1.Cards.Count == 0)
-            {
-                deck1Button.IsEnabled = false;
-                deck1Button.Content = null;
-            }
-            if (player2.Cards.Count == 0)
-            {
-                deck2Button.IsEnabled = false;
-                deck2Button.Content = null;
 
-            }
             if (card1.Val > card2.Val)
-                Score1++;
+            {
+                Score1 = Score1 + 2;
+                player1.Cards.Add(card2);
+                player1.Cards.Add(card1);
+            }
             else if (card1.Val < card2.Val)
-                Score2++;
+            {
+                Score2 = Score2 + 2;
+                player2.Cards.Add(card1);
+                player2.Cards.Add(card2);
+            }
             else
             {
-                Score1++;
-                Score2++;
-                if ((bool)ShowWarsCheckBox.IsChecked)
-                {
-                    MessageBox.Show("war");
-                }
+                war(card1, card2, new List<Card>());
             }
+            checkFinishConditions();
         }
+        public void war(Card card1, Card card2, List<Card> reward, int scoreChange = 4)
+        {
+            if (reward.Count == 0)
+                reward = new List<Card>();
+            if ((bool)ShowWarsCheckBox.IsChecked)
+            {
+                MessageBox.Show("War");
+            }
+            reward.Add(card1);
+            reward.Add(card2);
+            if (player1.Cards.Count < 2 || player2.Cards.Count < 2)
+            {
+                if ((bool)ShowWarsCheckBox.IsChecked)
+                    MessageBox.Show("Not enough cards");
+                if (player1.Cards.Count > player2.Cards.Count)
+                {
+                    foreach (var c in reward)
+                        player1.Cards.Add(c);
+                    Deck1Size++;
+                }
 
+                else
+                {
+                    foreach (var c in reward)
+                        player2.Cards.Add(c);
+                    Deck2Size++;
+                }
+                card1Img.Source = null;
+                card2Img.Source = null;
+                return;
+            }
+            reward.Add(player1.Cards[0]);
+            player1.Cards.RemoveAt(0);
+            Deck1Size--;
+            reward.Add(player2.Cards[0]);
+            player2.Cards.RemoveAt(0);
+            Deck2Size--;
+
+            Card currentCard1 = player1.Cards[0];
+            player1.Cards.RemoveAt(0);
+            Deck1Size--;
+            Card currentCard2 = player2.Cards[0];
+            player2.Cards.RemoveAt(0);
+            Deck2Size--;
+            if (currentCard1.Val > currentCard2.Val)
+            {
+                scoreChange += 2;
+                reward.Add(currentCard2);
+                reward.Add(currentCard1);
+                foreach (var card in reward)
+                {
+                    player1.Cards.Add(card);
+                }
+                Deck1Size++;
+                Score1 += scoreChange;
+            }
+            else if (card1.Val < card2.Val)
+            {
+                scoreChange += 2;
+                reward.Add(currentCard1);
+                reward.Add(currentCard2);
+                foreach (var card in reward)
+                {
+                    player2.Cards.Add(card);
+                }
+                Deck2Size++;
+                Score2 += scoreChange;
+            }
+            else
+            {
+                war(currentCard1, currentCard2, reward, scoreChange);
+            }
+            checkFinishConditions();
+        }
         private void resetButton_Click(object sender, RoutedEventArgs e)
         {
 
@@ -201,7 +283,7 @@ namespace WarGame
 
         private void skipButton_Click(object sender, RoutedEventArgs e)
         {
-            while(player1.Cards.Count > 0 && player2.Cards.Count > 0)
+            while (player1.Cards.Count > 0 && player2.Cards.Count > 0)
             {
                 deck1Button_Click(sender, e);
             }
